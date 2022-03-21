@@ -1,4 +1,8 @@
 import React from "react";
+import Control from "./Control";
+import ContentPage from "./ContentPage";
+import NavigationBar from "./NavigationBar";
+import '../stylesheet.css'
 
 class MainPage extends React.Component {
     constructor(props) {
@@ -9,7 +13,9 @@ class MainPage extends React.Component {
     render() {
         return (
             <div id='mainpage'>
-                slt
+                <Control />
+                <ContentPage />
+                <NavigationBar isConnected={this.state.connected} />
             </div>
         );
     }

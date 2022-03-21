@@ -1,0 +1,115 @@
+@font-face {
+    font-family: Birdy;
+    src: url("./Birdy.ttf");
+}
+
+
+html {
+    height: 0;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: Birdy, sans-serif;
+}
+
+input {
+    width: 70%;
+    border-radius: 5px;
+}
+
+.logo {
+    width: 30px;
+    height: 30px;
+}
+
+.content {
+    width: 90%;
+    max-height: 70%;
+    padding: 20px;
+    border-top-left-radius: 10px;
+    border: solid lightgrey 0.5px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+.contentmedia {
+    overflow: hidden;
+    max-width: 20vw;
+    height: auto;
+    align-self: center;
+    border-radius: 10px;
+    margin-bottom: 30px;
+
+}
+
+.trendingtag {
+    margin-bottom: 10px;
+}
+
+#mainpage {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#control {
+    width: 20vw;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+#contentpage {
+    width: 40vw;
+    min-height: 100%;
+    align-self: flex-start;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#navigationbar {
+    width: 20vw;
+    height: 100%;
+}
+
+#login {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#register {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#disconnect {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#settings {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+#newpost {
+    height: 5vw;
+    max-height: 100px;
+}
