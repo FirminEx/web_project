@@ -113,3 +113,11 @@ input {
     height: 5vw;
     max-height: 100px;
 }
+
+#settingspage {
+    width: 40vw;
+    min-height: 100%;
+    align-self: flex-start;
+    display: flex;
+    flex-direction: column;
+}
