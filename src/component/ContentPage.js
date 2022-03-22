@@ -19,10 +19,10 @@ class ContentPage extends React.Component {
                 return(
                     <ul id="contentpage">
                         <NewPost />
-                        <Content text="placeholder content"/>
-                        <Content text="placeholder content"/>
-                        <Content text="placeholder content"/>
-                        <Content text="placeholder content"/>
+                        <Content text="placeholder content" profilename="placeholder"/>
+                        <Content text="placeholder content" profilename="placeholder"/>
+                        <Content text="placeholder content" profilename="placeholder"/>
+                        <Content text="placeholder content" profilename="placeholder"/>
                     </ul>
                 );
         }

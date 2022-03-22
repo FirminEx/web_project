@@ -14,7 +14,7 @@ class MainPage extends React.Component {
         return (
             <div id='mainpage'>
                 <Control />
-                <ContentPage display="0"/>
+                <ContentPage display=""/>
                 <NavigationBar isConnected={this.state.connected} />
             </div>
         );
