@@ -1,10 +1,16 @@
 import React from "react";
+import placeholder from "../img/placeholder.jpg"
 
 class NewPost extends React.Component {
+    constructor(props) {
+        super(props);
+    }
     render() {
         return(
             <div id="newpost">
-                write a new post
+                <img src={placeholder} alt="your profile picture" id="newpostpicture"/>
+                <input type="text" placeholder="Write a new post" id="newposttext"/>
+                <button id="newpostmedia">Media</button>
             </div>
         );
     }

@@ -37,7 +37,6 @@ class Content extends React.Component {
     }
 }
 
-//<img class="contentmedia" src={placeholder} alt="placeholder" />
 
 export default Content;
 

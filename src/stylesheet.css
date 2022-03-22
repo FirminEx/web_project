@@ -118,6 +118,9 @@ ul {
 #navigationbar {
     width: 20vw;
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 #login {
@@ -151,6 +154,16 @@ ul {
 #newpost {
     height: 5vw;
     max-height: 100px;
+    width: 95%;
+    border: solid lightgrey 0.5px;
+    margin-bottom: 20px;
+    margin-top: 10px;
+    border-radius: 20px 20px 0 0;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    color: grey;
 }
 
 #settingspage {
@@ -160,3 +173,21 @@ ul {
     display: flex;
     flex-direction: column;
 }
+ #newpostpicture {
+     width: 50px;
+     height: 50px;
+     border-radius: 40px;
+     margin-right: 20px;
+ }
+
+ #newposttext {
+     border: none;
+     padding: 10px;
+     height: 60%;
+     font-size: 1.5rem;
+ }
+
+ #newpostmedia {
+     width: 10%;
+     height: 30%;
+ }
