@@ -10,7 +10,8 @@ class Friend extends React.Component {
     render() {
         return(
             <div class="friend">
-                <img className={"friendpp" + (this.state.connected ? "connected" : "offline")} src={placeholder} alt="friend" />
+                <img className={"friendpp"} src={placeholder} alt="friend" />
+                <div class={"" + (this.state.connected ? "connected" : "offline")}/>
                 <div class="friendname">{this.state.name}</div>
             </div>
         );
