@@ -4,21 +4,15 @@ import ContentPage from "./ContentPage";
 import NavigationBar from "./NavigationBar";
 import '../stylesheet.css'
 
-class MainPage extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {connected: false};
-    }
+function MainPage() {
+    return (
+        <div id='mainpage'>
+            <Control />
+            <ContentPage display="1"/>
+            <NavigationBar isConnected={true} />
+        </div>
+    );
 
-    render() {
-        return (
-            <div id='mainpage'>
-                <Control />
-                <ContentPage display=""/>
-                <NavigationBar isConnected={this.state.connected} />
-            </div>
-        );
-    }
 }
 
 

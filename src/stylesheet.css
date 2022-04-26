@@ -144,6 +144,34 @@ ul {
     align-self: center;
 }
 
+.settingtitle {
+    margin-bottom: 20px;
+}
+
+.setting {
+    margin-bottom: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.settingtext {
+    border: solid lightgrey 0.5px;
+    border-radius: 10px;
+    height: 40px;
+    padding: 10px;
+    line-height: 40px;
+    resize: none;
+    width: 70%;
+}
+
+.settingsubmit {
+    height: 40px;
+    width: 80px;
+}
+
 #mainpage {
     height: 100vh;
     width: 100vw;
@@ -227,6 +255,10 @@ ul {
     align-self: flex-start;
     display: flex;
     flex-direction: column;
+    border: solid lightgrey 0.5px;
+    border-radius: 20px;
+    margin-top: 3vw;
+    padding: 40px;
 }
  #newpostpicture {
      width: 50px;
@@ -271,3 +303,6 @@ ul {
     font-weight: bold;
 }
 
+#settingbio {
+    height: 20px;
+}

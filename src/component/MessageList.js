@@ -1,18 +1,16 @@
 import React from "react";
 import Friend from "./Friend";
 
-class MessageList extends React.Component {
-    render() {
-        return(
-            <div id="messagelist">
-                Friends
-                <Friend name="Placeholder" connected={false}/>
-                <Friend name="Placeholder" connected={true}/>
-                <Friend name="Placeholder" connected={true}/>
-                <Friend name="Placeholder" connected={false}/>
-            </div>
-        );
-    }
+function MessageList(){
+    return(
+        <div id="messagelist">
+            Friends
+            <Friend name="Placeholder" connected={false}/>
+            <Friend name="Placeholder" connected={true}/>
+            <Friend name="Placeholder" connected={true}/>
+            <Friend name="Placeholder" connected={false}/>
+        </div>
+    );
 }
 
 
