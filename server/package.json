@@ -10,10 +10,12 @@
     "cors": "^2.8.5",
     "debug": "~2.6.9",
     "dotenv": "^16.0.0",
+    "email-validator": "^2.0.4",
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
     "mongoose": "^6.3.1",
     "morgan": "~1.9.1",
-    "pug": "^3.0.2"
+    "pug": "^3.0.2",
+    "validator": "^13.7.0"
   }
 }

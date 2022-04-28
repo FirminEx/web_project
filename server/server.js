@@ -1,7 +1,8 @@
 const dotenv = require('dotenv').config();
 const cors = require('cors');
 const express = require('express');
-const postsRoutes = require('./routes/postsRoutes')
+const postsRouter = require('./routes/postsRoutes')
+const usersRooter = require('./routes/usersRoutes')
 const connectDB = require("./config/db");
 const port = process.env.PORT || 5000
 
@@ -17,7 +18,8 @@ app.use(cors({
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
-app.use('/posts', postsRoutes);
+app.use('/posts', postsRouter);
+app.use('/users', usersRooter);
 
 app.listen(port, () => {
     console.log(`Server started on port ${port}`)
