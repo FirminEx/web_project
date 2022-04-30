@@ -3,7 +3,7 @@ const Post = require('../models/postModel')
 
 const getPosts = async (req, res) => {
     Post.find()
-    .then(response => res.status(200).json(response))
+    .then(async response => res.status(200).json(response))
     .catch(err => {
         res.status(404).send('Cannot find the posts')
         console.log(err.message);
