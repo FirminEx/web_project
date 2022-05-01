@@ -15,6 +15,14 @@ const postSchema = mongoose.Schema({
     date: {
         type: Date,
         required: true,
+    },
+    likes: {
+        type: Number,
+        required: true,
+    },
+    comments: {
+        type: Array,
+        required: true,
     }
 });
 
