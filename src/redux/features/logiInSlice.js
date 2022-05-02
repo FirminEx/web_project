@@ -22,17 +22,21 @@ export const logIn = createAsyncThunk(
         if (!(response.status === 200)) {
             return Promise.reject(new Error(response.data))
         }
-        console.log(response)
         return response.data
     }
 )
+
 
 export const logInSlice = createSlice({
     name: 'logIn',
     initialState,
     reducers: {
-        reset: () => initialState,
-
+        logOut: (state) => {
+            state.user = {}
+            state.connected = false
+            state.loading = false
+            state.error = ''
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -53,24 +57,4 @@ export const logInSlice = createSlice({
     }
 
 })
-
-/*
-*   logInLoading: (state, action) => {
-            state.loading = true
-            state.user = {}
-            state.connected = false
-        },
-        logInSuccessful: (state, action) => {
-            state.loading = false
-            state.user = action.payload
-            state.connected = true
-        },
-        logInRejected: (state, action) => {
-            state.loading = false
-            state.error = action.error.message
-        }
-       */
-
-
-
 export default logInSlice.reducer
