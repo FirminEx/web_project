@@ -34,11 +34,11 @@ function Content(props) {
             {img ? img : ""}
             <ul class="contentinteractionlist">
                 <li class="contentinteractionlogo">
-                    {props.post.likers.length}
+                    {props.post.likers ? props.post.likers.length : 0}
                     <img src={likes} alt="like logo" class="contentlogo"/>
                 </li>
                 <li className="contentinteractionlogo">
-                    {props.post.comments.length}
+                    {props.post.comments ?  props.post.comments.length : 0}
                     <img src={comment} alt="comment logo" className="contentlogo"/>
                 </li>
                 <li className="contentinteractionlogo">

@@ -5,7 +5,7 @@ import Settings from "./Settings";
 function Control() {
     return(
         <div id="control">
-            <Connexion connected={true}/>
+            <Connexion />
             <Settings />
         </div>
     );

@@ -9,7 +9,7 @@ const initialState = {
     error: '',
 }
 
-const testPosts = async () => {
+const getPosts = async () => {
     //an async thunk has to return a promise of serializable data
     const response = await axios.get(url)
     return response.data
@@ -18,7 +18,7 @@ const testPosts = async () => {
 export const fetchAllPosts = createAsyncThunk(
     'posts/fetchAllPosts',
         async () => {
-            return testPosts() //if we return only the get response, the data is not serializable (and we cannot put a '.data' on a axios.get)
+            return getPosts() //if we return only the get response, the data is not serializable (and we cannot put a '.data' on a axios.get)
         }
 )
 

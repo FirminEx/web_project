@@ -1,10 +1,11 @@
 import React from "react";
+import {useSelector} from "react-redux";
 
 function Disconnect() {
-    var username = 'placeholder';
+    const { user } = useSelector((state) => state.logIn);
     return(
         <div id="disconnect">
-            Hello, {username}
+            Hello, {user.userName}
             <button id="disconnect_button">Disconnect</button>
         </div>
     );

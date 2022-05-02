@@ -13,7 +13,7 @@ const getUsers = async (req, res) => {
 }
 
 const newUser = async(req, res) => {
-    const { userName, mail, phone, place, date, bio, visibility } = req.body;
+    const { userName, mail, phone, place, bio, visibility } = req.body;
     const user = await User.findOne({ userName })
     if(user) {
         console.log(userName + ' already exists');
@@ -29,7 +29,7 @@ const newUser = async(req, res) => {
         mail: mail,
         phone: phone,
         place: place,
-        date: Date(date),
+        date: Date.now(),
         bio: bio,
         visibility: visibility
     })
@@ -43,4 +43,19 @@ const newUser = async(req, res) => {
         })
 }
 
-module.exports = { getUsers, newUser }
+const userLogIn = async (req, res) => {
+    if(!req.body.mail) {
+        res.status(201).send('No mail entered');
+        return;
+    }
+    const mail = req.body.mail
+    User.findOne({mail: mail})
+    .then(response => res.status(200).json(response))
+        .catch(err => {
+            res.status(201).send('Could not find the user')
+            console.log(err.message)
+        })
+
+}
+
+module.exports = { getUsers, newUser, userLogIn }
