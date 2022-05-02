@@ -7,6 +7,10 @@ const userSchema = mongoose.Schema({
         unique: true,
         required: [true, 'An author is required']
     },
+    password: {
+        type: String,
+        required: [true, "A password is needed"]
+    },
     mail: {
         type: String,
         unique: true,

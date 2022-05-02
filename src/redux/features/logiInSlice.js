@@ -17,8 +17,8 @@ const initialState = {
 
 export const logIn = createAsyncThunk(
     'users/logIn',
-    async (mail) => {
-        const response = await axios.post(url, {mail: mail})
+    async (credentials) => {
+        const response = await axios.post(url, credentials)
         if (!(response.status === 200)) {
             return Promise.reject(new Error(response.data))
         }
