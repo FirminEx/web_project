@@ -198,6 +198,9 @@ ul {
     align-items: center;
 }
 
+.error {
+    color: red;
+}
 
 #mainpage {
     height: 100vh;

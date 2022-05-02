@@ -1,10 +1,11 @@
 import React, {useState} from "react";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {logIn} from "../redux/features/logiInSlice";
 
 function LogIn() {
     const dispatch = useDispatch()
     const [credits, setCredits] = useState({})
+    const { errorLogIn } = useSelector(state => state.logIn)
     const mailChange = (event) => {
         setCredits({
             ...credits,
@@ -24,9 +25,10 @@ function LogIn() {
     return(
         <form id="login">
             <div id="login_title">Log In</div>
+            <div class="error">{errorLogIn ? errorLogIn : ""}</div>
             <input type="email" name="mail" placeholder="account email" onChange={mailChange}/>
-            <input type="password" placeholder="password" onChange={passwordChange}/>
-            <button type="submit" onClick={formSubmit}>Idk</button>
+            <input type="password" placeholder="password" onChange={passwordChange} autoComplete="on"/>
+            <button type="submit" onClick={formSubmit}>Log In</button>
         </form>
     );
 }

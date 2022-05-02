@@ -19,12 +19,12 @@ const newUser = async(req, res) => {
     const userN = await User.findOne({ userName })
     if(userN) {
         console.log(userName + ' already exists');
-        return res.status(400).send('This username is taken')
+        return res.status(201).send('This username is taken')
     }
     const userMail = await User.findOne( { mail })
     if(userMail) {
         console.log(mail + ' is already used');
-        res.status(400).send('This mail is already used')
+        res.status(201).send('This mail is already used')
     }
     //Hash the password
     const salt = await bcrypt.genSalt(10)
@@ -45,7 +45,7 @@ const newUser = async(req, res) => {
     }
     else {
         console.log('Cannot create user', user);
-        res.status(401).send('Cannot create user')
+        res.status(201).send('Cannot create user')
     }
 }
 
@@ -57,7 +57,6 @@ const userLogIn = async (req, res) => {
     const { mail, password} = req.body
     const user = await User.findOne({mail: mail})
     if(user) {
-        console.log(password)
         if(await bcrypt.compare(password, user.password)){
             return res.status(200).json({_id: user._id, mail: user.mail, userName: user.userName})
         }
