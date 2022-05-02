@@ -41,11 +41,12 @@ const newPost = async (req, res) => {
     })
 }
 
-const likePost = async (res, req) => {
-    if (!mongoose.isValidObjectId(req.params.id))
-        return res.status(400).send("ID invalid : " + req.params.id);
-    Post.findByIdAndUpdate(res.params.id, {
-        $addToSet: {likers: req.body.id},
+const likePost = async (req, res) => {
+    const {userid, postid} = req.body
+    if (!mongoose.isValidObjectId(userid) || !mongoose.isValidObjectId(postid))
+        return res.status(400).send("Invalid ID");
+    Post.findByIdAndUpdate(postid, {
+        $addToSet: {likers: userid},
         },
         { new: true })
         .then(response => res.status(200).json(response))
