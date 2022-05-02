@@ -202,6 +202,10 @@ ul {
     color: red;
 }
 
+.success {
+    color: green;
+}
+
 #mainpage {
     height: 100vh;
     width: 100vw;
@@ -304,10 +308,6 @@ ul {
      font-size: 1.5rem;
  }
 
- #newpostmedia {
-     width: 10%;
-     height: 30%;
- }
 
  #trending {
      width: 60%;
@@ -340,4 +340,8 @@ ul {
 #noposts {
     display: flex;
     flex-direction: column;
+}
+
+#inputfile {
+    width: 0;
 }

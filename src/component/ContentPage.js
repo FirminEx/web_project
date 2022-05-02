@@ -16,12 +16,12 @@ function ContentPage() {
             return(
                 <ul id="contentpage">
                     <NewPost />
-                    <ExploreCheckBox explore={true} hint="Explore"/>
+                    <ExploreCheckBox explore={false} hint="Subs"/>
                     <ContentList />
                 </ul>
             );
 
-        default:
+        default: //not connected
             return(
                 <ul id="contentpage">
                     <NewPost />
