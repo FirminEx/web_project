@@ -1,5 +1,5 @@
 import {useDispatch, useSelector} from "react-redux";
-import {useEffect} from "react";
+import React, {useEffect} from "react";
 import {fetchAllPosts} from "../redux/features/postsSlice";
 import Content from "./Content";
 import Spinner from "./Spinner";
@@ -13,10 +13,10 @@ function ContentList() {
         }
     }, [])
     return(
-        <ul>{postsList.length ? postsList.map((post) => <Content key={post._id} profilename={post.author} text={post.text}/>)
+        <ul>{postsList.length ? postsList.map((post) => <Content post={post} key={post._id}/>)
             : loading ? <Spinner />
                 : error ? <div>{error}<button onClick={() => dispatch(fetchAllPosts())}>Try again</button></div>
-                    : <div>Unexpected error<button onClick={() => dispatch(fetchAllPosts())}>Try again</button></div> }</ul>
+                    : <div id="noposts">No posts available<button onClick={() => dispatch(fetchAllPosts())}>Try again</button></div> }</ul>
     )
 }
 

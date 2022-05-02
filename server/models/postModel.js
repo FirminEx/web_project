@@ -16,13 +16,23 @@ const postSchema = mongoose.Schema({
         type: Date,
         required: true,
     },
-    likes: {
-        type: Number,
+    likers: {
+        type: Array,
         required: true,
+        default: [],
     },
     comments: {
         type: Array,
         required: true,
+        default: [],
+    },
+    media: {
+        data: {
+            type: Buffer
+        },
+        type: {
+            type: String
+        },
     }
 });
 
