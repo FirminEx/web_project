@@ -14,9 +14,11 @@ const getPosts = async (req, res) => {
 
 const newPost = async (req, res) => {
     let imgUpload = null;
+    let path = null
     if(req.file) {
-        const img = fs.readFileSync(__dirname + '/../' + req.file.path)
-        console.log(img)
+        path = __dirname + '/../' + req.file.path
+        const img = fs.readFileSync(path)
+        //console.log(img)
         imgUpload = {
             data: img,
             type: req.file.mimetype
@@ -39,6 +41,7 @@ const newPost = async (req, res) => {
         console.log(err.message)
         res.status(401).send('Could not create the post')
     })
+    if(imgUpload) fs.unlinkSync(path)
 }
 
 const likePost = async (req, res) => {
