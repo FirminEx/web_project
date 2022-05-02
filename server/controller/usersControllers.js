@@ -49,13 +49,12 @@ const userLogIn = async (req, res) => {
         return;
     }
     const mail = req.body.mail
-    User.findOne({mail: mail})
-    .then(response => res.status(200).json(response))
-        .catch(err => {
-            res.status(201).send('Could not find the user')
-            console.log(err.message)
-        })
-
+    const user = await User.findOne({mail: mail})
+    if(user) {
+        res.status(200).json(user)
+        return
+    }
+    res.status(201).send('Could not find the user')
 }
 
 module.exports = { getUsers, newUser, userLogIn }
