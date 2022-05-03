@@ -28,7 +28,7 @@ function ContentList() {
     }
 
     return(
-        <ul>{postsList.length ? postsList.map((post) => <Content post={post} key={post._id}/>)
+        <ul id='contentlist'>{postsList.length ? postsList.map((post) => <Content post={post} key={post._id}/>)
             : loading ? <Spinner />
                 : error ? <div>{error}<button onClick={retryFetch}>Try again</button></div>
                     : <div id="noposts">No posts available<button onClick={retryFetch}>Try again</button></div> }</ul>

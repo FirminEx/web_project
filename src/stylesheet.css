@@ -224,7 +224,7 @@ ul {
 
 #contentpage {
     width: 40vw;
-    min-height: 100%;
+    height: 100%;
     align-self: flex-start;
     display: flex;
     flex-direction: column;
@@ -344,4 +344,17 @@ ul {
 
 #inputfile {
     width: 0;
+}
+
+#contentlist {
+    height: 100%;
+    width: 100%;
+    overflow-y: scroll;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;
+}
+
+#contentlist::-webkit-scrollbar {
+    width: 0;
+    height: 0;
 }
