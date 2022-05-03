@@ -60,7 +60,7 @@ const userLogIn = async (req, res) => {
     const user = await User.findOne({mail: mail})
     if(user) {
         if(await bcrypt.compare(password, user.password)){
-            return res.status(200).json({_id: user._id, mail: user.mail, userName: user.userName, subscription: user.subscription, posts: user.posts})
+            return res.status(200).json({_id: user._id, mail: user.mail, userName: user.userName, subscription: user.subscription, posts: user.posts, picture: user.picture})
         }
         return res.status(201).send('Incorrect password')
     }

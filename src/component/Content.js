@@ -3,18 +3,12 @@ import placeholder from "../img/placeholder.jpg";
 import likes from "../src_logo/likes.jpg"
 import comment from "../src_logo/comment.png"
 import share from "../src_logo/share.png"
+import {imageToBase64} from "../data_process/image";
 
 function Content(props) {
     let img = "";
     if(props.post.media) {
-        var binary = '';
-        var bytes = new Uint8Array( props.post.media.data.data );
-        for (var i = 0; i < bytes.byteLength; i++) {
-            binary += String.fromCharCode( bytes[ i ] ); //convert back to base64
-        }
-        const base64 = window.btoa( binary );
-        const src = "data:" + props.post.media.type + ";base64," + base64
-        img = <img className='contentmedia' src={src} alt='post media'></img>
+        img = <img className='contentmedia' src={imageToBase64(props.post.media)} alt='post media'></img>
     }
     const date = new Date(props.post.date)
      return(

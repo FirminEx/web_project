@@ -1,5 +1,9 @@
 const mongoose = require('mongoose')
 const validator = require('email-validator')
+const fs = require("fs");
+
+const default_image = fs.readFileSync('./models/default_profile.jpg');
+const buffer = Buffer.from(default_image.toString('base64'), 'base64')
 
 const userSchema = mongoose.Schema({
     userName: {
@@ -47,6 +51,18 @@ const userSchema = mongoose.Schema({
         type: Array,
         required: true,
         default: []
+    },
+    picture: {
+        data: {
+            type: Buffer,
+            required: true,
+            default: buffer
+        },
+        type: {
+            type: String,
+            required: true,
+            default: "image/jpeg"
+        },
     }
 });
 

@@ -35,7 +35,10 @@ const newPost = async (req, res) => {
         text: text,
         date: Date.now(),
     }
-    if (imgUpload) post['media'] = imgUpload
+    if (imgUpload) {
+        console.log(imgUpload)
+        post['media'] = imgUpload
+    }
 
     const user = User.findById(authorID)
     if(!user) return res.status(201).send('Could not find the user')

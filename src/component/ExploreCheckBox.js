@@ -4,7 +4,7 @@ import {displaySlice} from "../redux/features/displaySlice";
 import {postsSlice} from "../redux/features/postsSlice";
 
 function ExploreCheckBox() {
-    const {display} = useSelector(state => state.display);
+    const {display, logged} = useSelector(state => state.display);
     const [hint, setHint] = useState('');
     const dispatch = useDispatch();
 
@@ -13,7 +13,9 @@ function ExploreCheckBox() {
         if(display === 1) setHint('Subscription')
     }, [display])
 
-    const handleClick = () => {
+    const handleClick = (e) => {
+        e.preventDefault()
+        if(!logged) return setHint('Explore you are not logged in')
         dispatch(postsSlice.actions.reset())
         if(display === 2) dispatch(displaySlice.actions.goToSubscription())
         if(display === 1) dispatch(displaySlice.actions.goToDiscover())
