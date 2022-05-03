@@ -1,5 +1,7 @@
 const User = require('../models/userModel')
 const bcrypt = require("bcrypt");
+const Post = require("../models/postModel");
+const mongoose = require("mongoose");
 
 const getUsers = async (req, res) => {
     User.find()
@@ -65,4 +67,47 @@ const userLogIn = async (req, res) => {
     res.status(201).send('Could not find the user')
 }
 
-module.exports = { getUsers, newUser, userLogIn }
+const subscribe = async (req, res) => {
+    const { id, target } = req.body;
+    if(!mongoose.isValidObjectId(id) || !mongoose.isValidObjectId(target) || target === id) return res.status(201).send('Bad user id or target id (might be the same)')
+    let user = await User.findById(id);
+    if(!user) return res.status(201).send('could not find the user');
+
+    const targetUser = await User.findById(target);
+    if(!targetUser) return res.status(201).send('could not find the target')
+
+    await User.findByIdAndUpdate(id, {
+        $addToSet: {subscription: target}
+    }, {new: true})
+        .then(response => res.status(200).json({id: response._id , subscription: response.subscription}))
+        .catch(e => {
+            res.send(201).status('Could not subscribe');
+            console.log(e.message);
+        })
+}
+
+const addPost = async (req, res) => {
+    const { id, postID } = req.body;
+    if(!mongoose.isValidObjectId(id) || !mongoose.isValidObjectId(postID)) return res.status(201).send('Incorrect user or post id');
+    await Post.findById(postID)
+        .then(response => {
+            if (!response) res.status(201).send('Post does not exist')
+        })
+        .catch(error => {
+        console.log(error.message)
+        return res.status(201).send('Could not find the post')
+    })
+    User.findByIdAndUpdate(id, {
+        $addToSet: {posts: postID}
+    }, {new: true})
+        .then(response => {
+            return res.status(200).json({id: response._id, posts: response.posts})
+        })
+        .catch(error => {
+            res.status(201).send('Could not update the posts')
+            console.log(error.message)
+        })
+}
+
+
+module.exports = { getUsers, newUser, userLogIn, subscribe, addPost }

@@ -37,6 +37,16 @@ const userSchema = mongoose.Schema({
         type: Boolean,
         required: true,
         default: true,
+    },
+    subscription: {
+        type: Array,
+        required: true,
+        default: []
+    },
+    posts: {
+        type: Array,
+        required: true,
+        default: []
     }
 });
 

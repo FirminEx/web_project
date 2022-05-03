@@ -1,4 +1,5 @@
 const Post = require('../models/postModel')
+const User = require('../models/userModel')
 const fs = require("fs");
 const mongoose = require("mongoose");
 
@@ -25,6 +26,9 @@ const newPost = async (req, res) => {
         }
     }
     const { author, authorID, text } = req.body
+
+    if(!mongoose.isValidObjectId(authorID)) return res.status(201).send('Author Id not valid')
+
     const post = {
         author: author,
         authorID: authorID,
@@ -46,8 +50,7 @@ const newPost = async (req, res) => {
 
 const likePost = async (req, res) => {
     const {userid, postid} = req.body
-    if (!mongoose.isValidObjectId(userid) || !mongoose.isValidObjectId(postid))
-        return res.status(400).send("Invalid ID");
+    if (!mongoose.isValidObjectId(userid) || !mongoose.isValidObjectId(postid)) return res.status(400).send("Invalid ID");
     Post.findByIdAndUpdate(postid, {
         $addToSet: {likers: userid},
         },
@@ -56,4 +59,13 @@ const likePost = async (req, res) => {
         .catch(err => res.status(201).send(err.message))
 }
 
-module.exports = { getPosts, newPost, likePost }
+const getPostsUser = async (req, res) => {
+    const {userID} = req.body;
+    if(!mongoose.isValidObjectId(userID)) return res.status(201).send('Incorrect user id');
+    const user = await User.findById(userID);
+    if(user) return res.status(200).json({posts: user.posts});
+    res.status(201).send('Could not find the user');
+}
+
+
+module.exports = { getPosts, newPost, likePost, getPostsUser }
