@@ -16,7 +16,7 @@ function ContentPage() {
             return(
                 <ul id="contentpage">
                     <NewPost />
-                    <ExploreCheckBox explore={false} hint="Subs"/>
+                    <ExploreCheckBox/>
                     <ContentList />
                 </ul>
             );
@@ -25,7 +25,7 @@ function ContentPage() {
             return(
                 <ul id="contentpage">
                     <NewPost />
-                    <ExploreCheckBox explore={false} hint="Subscription"/>
+                    <ExploreCheckBox/>
                     <ContentList />
                 </ul>
             );

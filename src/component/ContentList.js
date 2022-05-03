@@ -1,6 +1,6 @@
 import {useDispatch, useSelector} from "react-redux";
 import React, {useEffect} from "react";
-import {fetchPostsDiscover, fetchPostsSubscription} from "../redux/features/postsSlice";
+import {fetchPostsDiscover, fetchPostsSubscription, postsSlice} from "../redux/features/postsSlice";
 import Content from "./Content";
 import Spinner from "./Spinner";
 
@@ -13,8 +13,10 @@ function ContentList() {
         if(!postsList.length && (error === '') && display === 2) {
             dispatch(fetchPostsDiscover());
         }
-        if(!postsList.length && (error === '') && display === 1 && user.subscription) {
-            dispatch(fetchPostsSubscription(user));
+        if(!postsList.length && (error === '') && display === 1) {
+            if(user.subscription) dispatch(fetchPostsSubscription(user));
+            else dispatch(postsSlice.actions.reset())
+
         }
     }, [display])
 

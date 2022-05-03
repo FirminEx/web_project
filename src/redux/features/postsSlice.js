@@ -25,7 +25,6 @@ export const fetchPostsSubscription = createAsyncThunk(
     async (user) => {
         if(!user) return Promise.reject(new Error('Not connected'))
         let posts = []
-        console.log('user', user.subscription)
         for(let i = 0 ; i < user.subscription.length ; i++) {
             await axios.post(url + '/getPostsUser', {userID: user.subscription[i]})
                 .then(response => {
