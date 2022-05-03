@@ -1,24 +1,29 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axios from "axios";
+import {displaySlice} from './displaySlice'
+import {fetchPostsSubscription, postsSlice} from "./postsSlice";
 
 const url = 'http://localhost:8000/users/'
 
 const initialState = {
     user: {},
-    connected: false,
     loading: false,
     errorLogIn: '',
-    errorRegister: ''
+    errorRegister: '',
+    connected: false
 }
 
 export const logIn = createAsyncThunk(
     'users/logIn',
-    async (credentials) => {
+    async (credentials, thunkApi) => {
         const response = await axios.post(url + 'logIn', credentials)
         if (!(response.status === 200)) {
             return Promise.reject(new Error(response.data))
         }
+        await thunkApi.dispatch(fetchPostsSubscription(response.data))
+        await thunkApi.dispatch(displaySlice.actions.loggedIn(null))
         return response.data
+
     }
 )
 
@@ -33,11 +38,20 @@ export const register = createAsyncThunk(
     }
 )
 
+export const logOut = createAsyncThunk(
+    'users/logOut',
+    async (arg, thunkApi) => {
+        await thunkApi.dispatch(logInSlice.actions.logOutUser())
+        await thunkApi.dispatch(displaySlice.actions.loggedOut())
+        await thunkApi.dispatch(postsSlice.actions.reset())
+    }
+)
+
 export const logInSlice = createSlice({
     name: 'logIn',
     initialState,
     reducers: {
-        logOut: (state) => {
+        logOutUser: (state) => {
             state.user = {}
             state.connected = false
             state.loading = false
@@ -59,8 +73,9 @@ export const logInSlice = createSlice({
             .addCase(logIn.rejected, (state, action) => {
                 state.loading = false
                 state.errorLogIn = action.error.message
+                state.connected = false
             })
-            .addCase(register.pending, (state, action) => {
+            .addCase(register.pending, (state) => {
                 state.loading = true
             })
             .addCase(register.rejected, (state, action) => {

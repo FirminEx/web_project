@@ -6,7 +6,7 @@ const postsRouter = express.Router();
 postsRouter.get('/', getPosts);
 postsRouter.post('/', multerMiddleware, newPost)
 postsRouter.put('/addlike', likePost )
-postsRouter.get('/getPostsUser', getPostsUser)
+postsRouter.post('/getPostsUser', getPostsUser)
 
 module.exports = postsRouter;
 

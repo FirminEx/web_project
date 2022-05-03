@@ -1,12 +1,12 @@
 import React from "react";
-import Content from "./Content";
 import NewPost from "./NewPost";
 import SettingsPage from "./SettingsPage";
 import ExploreCheckBox from "./ExploreCheckBox";
 import ContentList from "./ContentList";
+import {useSelector} from "react-redux";
 
 function ContentPage() {
-    var display = 1
+    var {display} = useSelector(state => state.display.display)
     switch (display){
         case 0:
             return(
@@ -26,10 +26,7 @@ function ContentPage() {
                 <ul id="contentpage">
                     <NewPost />
                     <ExploreCheckBox explore={false} hint="Subscription"/>
-                    <Content text="placeholder content" profilename="placeholder"/>
-                    <Content text="placeholder content" profilename="placeholder"/>
-                    <Content text="placeholder content" profilename="placeholder"/>
-                    <Content text="placeholder content" profilename="placeholder"/>
+                    <ContentList />
                 </ul>
             );
 

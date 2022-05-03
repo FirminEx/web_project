@@ -36,9 +36,11 @@ const newPost = async (req, res) => {
         date: Date.now(),
     }
     if (imgUpload) post['media'] = imgUpload
+
+    const user = User.findById(authorID)
+    if(!user) return res.status(201).send('Could not find the user')
     Post.create(post)
     .then(response => {
-        //console.log('Created the post ', response)
         res.status(200).json(response)
     })
     .catch(err => {
@@ -63,8 +65,17 @@ const getPostsUser = async (req, res) => {
     const {userID} = req.body;
     if(!mongoose.isValidObjectId(userID)) return res.status(201).send('Incorrect user id');
     const user = await User.findById(userID);
-    if(user) return res.status(200).json({posts: user.posts});
-    res.status(201).send('Could not find the user');
+    if(user) {
+        await Post.find({authorID: user._id})
+            .then(response => {
+                return res.status(200).json({posts: response})
+            })
+            .catch(error => {
+                console.log(error)
+                return res.status(201).send('Could not find user posts')
+            })
+    }
+    if(!user) return res.status(201).send('Could not find the user');
 }
 
 
