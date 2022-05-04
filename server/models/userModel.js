@@ -42,7 +42,12 @@ const userSchema = mongoose.Schema({
         required: true,
         default: true,
     },
-    subscription: {
+    friends: {
+        type: Array,
+        required: true,
+        default: []
+    },
+    friendRequests: {
         type: Array,
         required: true,
         default: []

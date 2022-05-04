@@ -60,14 +60,14 @@ const userLogIn = async (req, res) => {
     const user = await User.findOne({mail: mail})
     if(user) {
         if(await bcrypt.compare(password, user.password)){
-            return res.status(200).json({_id: user._id, mail: user.mail, userName: user.userName, subscription: user.subscription, posts: user.posts, picture: user.picture})
+            return res.status(200).json({_id: user._id, mail: user.mail, userName: user.userName, friends: user.friends, friendRequests: user.friendRequests, posts: user.posts, picture: user.picture})
         }
         return res.status(201).send('Incorrect password')
     }
     res.status(201).send('Could not find the user')
 }
 
-const subscribe = async (req, res) => {
+const sendFriendRequest = async (req, res) => {
     const { id, target } = req.body;
     if(!mongoose.isValidObjectId(id) || !mongoose.isValidObjectId(target) || target === id) return res.status(201).send('Bad user id or target id (might be the same)')
     let user = await User.findById(id);
@@ -77,11 +77,11 @@ const subscribe = async (req, res) => {
     if(!targetUser) return res.status(201).send('could not find the target')
 
     await User.findByIdAndUpdate(id, {
-        $addToSet: {subscription: target}
+        $addToSet: {friendRequests: target}
     }, {new: true})
-        .then(response => res.status(200).json({id: response._id , subscription: response.subscription}))
+        .then(response => res.status(200).json({id: response._id , friendRequests: response.friendRequests}))
         .catch(e => {
-            res.send(201).status('Could not subscribe');
+            res.send(201).status('Could not send friend request');
             console.log(e.message);
         })
 }
@@ -110,4 +110,4 @@ const addPost = async (req, res) => {
 }
 
 
-module.exports = { getUsers, newUser, userLogIn, subscribe, addPost }
+module.exports = { getUsers, newUser, userLogIn, sendFriendRequest, addPost }

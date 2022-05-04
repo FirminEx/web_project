@@ -1,6 +1,6 @@
 import {useDispatch, useSelector} from "react-redux";
 import React, {useEffect} from "react";
-import {fetchPostsDiscover, fetchPostsSubscription, postsSlice} from "../redux/features/postsSlice";
+import {fetchPostsDiscover, fetchPostsFriends, postsSlice} from "../redux/features/postsSlice";
 import Content from "./Content";
 import Spinner from "./Spinner";
 
@@ -14,7 +14,7 @@ function ContentList() {
             dispatch(fetchPostsDiscover());
         }
         if(!postsList.length && (error === '') && display === 1) {
-            if(user.subscription) dispatch(fetchPostsSubscription(user));
+            if(user.friends) dispatch(fetchPostsFriends(user));
             else dispatch(postsSlice.actions.reset())
 
         }
@@ -22,7 +22,7 @@ function ContentList() {
 
     const retryFetch = () => {
         if(display === 1) {
-            return dispatch(fetchPostsSubscription(user));
+            return dispatch(fetchPostsFriends(user));
         }
         dispatch(fetchPostsDiscover());
     }

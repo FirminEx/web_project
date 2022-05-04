@@ -10,14 +10,14 @@ function ExploreCheckBox() {
 
     useEffect(() => {
         if(display === 2) setHint('Explore')
-        if(display === 1) setHint('Subscription')
+        if(display === 1) setHint('Friends posts')
     }, [display])
 
     const handleClick = (e) => {
         e.preventDefault()
         if(!logged) return setHint('Explore you are not logged in')
         dispatch(postsSlice.actions.reset())
-        if(display === 2) dispatch(displaySlice.actions.goToSubscription())
+        if(display === 2) dispatch(displaySlice.actions.goToFriendsPosts())
         if(display === 1) dispatch(displaySlice.actions.goToDiscover())
     }
 

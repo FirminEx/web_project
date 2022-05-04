@@ -22,7 +22,7 @@ export const displaySlice = createSlice({
                 display: 2
             }
         },
-        goToSubscription: (state) => {
+        goToFriendsPosts: (state) => {
             if(state.logged) {
                 return {
                     ...state,

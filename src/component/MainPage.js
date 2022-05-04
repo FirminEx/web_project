@@ -8,7 +8,7 @@ function MainPage() {
     return (
         <div id='mainpage'>
             <Control />
-            <ContentPage display="1"/>
+            <ContentPage/>
             <NavigationBar isConnected={true} />
         </div>
     );

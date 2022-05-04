@@ -1,7 +1,7 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axios from "axios";
 import {displaySlice} from './displaySlice'
-import {fetchPostsSubscription, postsSlice} from "./postsSlice";
+import {fetchPostsFriends, postsSlice} from "./postsSlice";
 
 const url = 'http://localhost:8000/users/'
 
@@ -20,7 +20,7 @@ export const logIn = createAsyncThunk(
         if (!(response.status === 200)) {
             return Promise.reject(new Error(response.data))
         }
-        await thunkApi.dispatch(fetchPostsSubscription(response.data))
+        await thunkApi.dispatch(fetchPostsFriends(response.data))
         await thunkApi.dispatch(displaySlice.actions.loggedIn(null))
         return response.data
 
