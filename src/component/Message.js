@@ -9,11 +9,11 @@ function Message(props) {
         img = <img className='contentmedia' src={imageToBase64(props.message.media)} alt='post media'></img>
     }
     return <>{
-        user._id === props.message.sender ? <div className="messagesent">
+        user._id === props.message.sender ? <div className="messagesent message">
             {props.message.text ? props.message.text : ''}
             {img}
             </div>
-        : <div className="messagereceived">
+        : <div className="messagereceived message">
             {props.message.text ? props.message.text : ''}
             {img}
         </div>

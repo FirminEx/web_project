@@ -13,6 +13,8 @@ const initialState = {
 
 const url = 'http://localhost:8000/conversation/'
 const urlMessage = 'http://localhost:8000/message/'
+const urlUser = 'http://localhost:8000/users/'
+
 
 export const fetchConversation = createAsyncThunk(
     'conversation/fetchConversation',
@@ -25,6 +27,7 @@ export const fetchConversation = createAsyncThunk(
         }
         if(!response.data) return Promise.reject(new Error('Could not find the conversation'))
         await thunkApi.dispatch(fetchMessages(response.data))
+        await thunkApi.dispatch(fetchFriend(friendID))
         return response.data
     }
 )
@@ -44,11 +47,21 @@ export const fetchMessages = createAsyncThunk(
     }
 )
 
+export const fetchFriend = createAsyncThunk(
+    'conversation/fetchFriend',
+    async (friendID) => {
+        const friend = await axios.post(urlUser + 'getUserId', {id: friendID})
+        console.log(friend)
+        if(!friend.data.userName) return Promise.reject(new Error('Friend not found'))
+        return friend.data.userName
+    }
+)
+
 export const conversationSlice = createSlice({
     name: 'conversation',
     initialState,
     reducers: {
-        resetConversation: () => initialState
+        resetConversation: () => initialState,
     },
     extraReducers: (builder) => {
         builder
@@ -80,7 +93,22 @@ export const conversationSlice = createSlice({
                 state.loading = false
                 state.errorMessages = action.payload
             })
+            .addCase(fetchFriend.pending, (state, ) => {
+                state.loading = true
+                state.friend = []
+                state.errorFriend = ''
+            })
+            .addCase(fetchFriend.fulfilled, (state, action) => {
+                state.loading = false
+                state.friend = action.payload
+            })
+            .addCase(fetchFriend.rejected, (state, action) => {
+                state.loading = false
+                state.errorFriend = action.payload
+            })
+
     }
+
 })
 
 
