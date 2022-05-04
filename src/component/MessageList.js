@@ -3,20 +3,17 @@ import Friend from "./Friend";
 import {useSelector} from "react-redux";
 
 function MessageList(){
-    const {user} = useSelector(state => state.logIn)
-
+    const {friends} = useSelector(state => state.friends)
+    const {logged} = useSelector(state => state.display)
     return(
-        <>{ user.friends ?
+        <>
+        {friends.length ?
             <ul id="messagelist">
-                {user.friends.map(friend => {
-                    <Friend name=""/>
-                })}
                 Friends
-                <Friend name="Placeholder" connected={false}/>
-                <Friend name="Placeholder" connected={true}/>
-                <Friend name="Placeholder" connected={true}/>
-                <Friend name="Placeholder" connected={false}/>
+                {friends.map(friend => <Friend key={friend._id} user={friend}/>)}
             </ul>
+            : logged ?
+                <div id='messagelist'>No friends :(</div>
             : <div id='messagelist'>Connect to see your messages</div>
         }</>
     );
