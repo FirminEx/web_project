@@ -52,4 +52,16 @@ const createMessage = async (req, res) => {
 
 }
 
-module.exports = { createMessage }
+const getMessage = async (req, res) => {
+    const {id} = req.body
+    if(!mongoose.isValidObjectId(id)) return res.status(201).send('Incorrect message id')
+    const message = await Message.findById(id)
+        .catch(err => {
+            console.log(err)
+            res.status(201).send('Could not find the message')
+        })
+    if(!message) return res.status(201).send('Could not find the user')
+    res.status(200).json(message)
+}
+
+module.exports = { createMessage, getMessage }
