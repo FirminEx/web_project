@@ -109,5 +109,16 @@ const addPost = async (req, res) => {
         })
 }
 
+const getUserId = async(req,res) => {
+    const {id} = req.body;
+    if(!mongoose.isValidObjectId(id)) return res.status(201).send('Not a valid user id')
+    const user = await User.findById(id).catch(e => {
+        res.status(201).send('Could not find the user')
+        console.log(e)
+    })
+    if(!user) return res.status(201).send('Unknown user')
+   res.status(200).json(user)
+}
 
-module.exports = { getUsers, newUser, userLogIn, sendFriendRequest, addPost }
+
+module.exports = { getUsers, newUser, userLogIn, sendFriendRequest, addPost, getUserId }
