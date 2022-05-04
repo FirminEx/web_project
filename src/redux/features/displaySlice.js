@@ -9,8 +9,9 @@ export const displaySlice = createSlice({
     name: 'display',
     initialState,
     reducers: {
-        loggedIn: () => {
+        loggedIn: (state) => {
             return {
+                ...state,
                 logged: true,
                 display: 1,
             }
@@ -29,6 +30,13 @@ export const displaySlice = createSlice({
                     display: 1
                 }
             }
+        },
+        goToConversation: (state) => {
+            return {
+                ...state,
+                display: 3
+            }
+
         }
     },
 

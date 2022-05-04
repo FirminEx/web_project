@@ -374,3 +374,11 @@ ul {
     font-size: 1.2rem;
     font-weight: bold;
 }
+
+#conversation {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+

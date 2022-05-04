@@ -4,9 +4,10 @@ import SettingsPage from "./SettingsPage";
 import ExploreCheckBox from "./ExploreCheckBox";
 import ContentList from "./ContentList";
 import {useSelector} from "react-redux";
+import Conversation from "./Conversation";
 
 function ContentPage() {
-    var {display} = useSelector(state => state.display.display)
+    const {display} = useSelector(state => state.display)
     switch (display){
         case 0:
             return(
@@ -21,7 +22,7 @@ function ContentPage() {
                 </ul>
             );
 
-        default: //not connected
+        case 2: //not connected
             return(
                 <ul id="contentpage">
                     <NewPost />
@@ -29,6 +30,13 @@ function ContentPage() {
                     <ContentList />
                 </ul>
             );
+
+        case 3:
+            return(
+                <Conversation />
+            );
+        default:
+            return(<div>Display error</div>)
 
     }
 }

@@ -4,6 +4,7 @@ import logInReducer from "./features/logiInSlice";
 import newPostSlice from "./features/newPostSlice";
 import displaySlice from "./features/displaySlice";
 import friendsSlice from "./features/friendsSlice";
+import conversationSlice from "./features/conversationSlice";
 
 export const store = configureStore({
     reducer: {
@@ -12,5 +13,6 @@ export const store = configureStore({
         newPost: newPostSlice,
         display: displaySlice,
         friends: friendsSlice,
+        conversation: conversationSlice
     },
 })
