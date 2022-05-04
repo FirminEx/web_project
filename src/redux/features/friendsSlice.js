@@ -29,6 +29,22 @@ export const fetchRequests = createAsyncThunk(
     }
 )
 
+export const acceptRequest = createAsyncThunk(
+    'friends/acceptRequest',
+    async (users, thunkApi) => {
+        if(!users) return Promise.reject(new Error('No users sent'))
+        const { user , target } = users;
+        await axios.post(url + 'acceptFriendRequest', { id: user,target: target})
+            .then(async () => {
+                await thunkApi.dispatch(fetchRequests())
+                //TODO fetch friends
+            })
+            .catch(err => {
+                return Promise.reject(new Error('Could not accept the friend request\n' + err))
+            })
+    }
+)
+
 export const friendsSlice = createSlice({
     name: 'friends',
     initialState,
@@ -48,6 +64,21 @@ export const friendsSlice = createSlice({
                 state.requests = action.payload
             })
             .addCase(fetchRequests.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload
+            })
+            .addCase(acceptRequest.pending, (state) => {
+                state.loading = true
+                state.error = ''
+                state.friends = []
+                state.requests = []
+            })
+            .addCase(acceptRequest.fulfilled, (state, action) => {
+                state.loading = false
+                state.requests = action.payload.user.friendRequests
+                state.friends = action.payload.user.friends
+            })
+            .addCase(acceptRequest.rejected, (state, action) => {
                 state.loading = false
                 state.error = action.payload
             })

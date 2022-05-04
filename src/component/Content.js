@@ -1,5 +1,4 @@
 import React from "react";
-import placeholder from "../img/placeholder.jpg";
 import likes from "../src_logo/likes.jpg"
 import comment from "../src_logo/comment.png"
 import share from "../src_logo/share.png"
@@ -15,7 +14,7 @@ function Content(props) {
         <div class="content">
             <div class="contentheader">
                 <div className="contentprofile">
-                    <img src={placeholder} class="contentprofilepicture" alt="profile" />
+                    {img ? img : <div>could not load the picture</div>}
                     <div class="contentprofilename">
                         @{props.post.author}
                     </div>
