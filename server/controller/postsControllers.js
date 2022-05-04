@@ -40,7 +40,7 @@ const newPost = async (req, res) => {
         authorPicture: user.picture,
     }
     if (imgUpload) {
-        console.log(imgUpload)
+        //console.log(imgUpload)
         post['media'] = imgUpload
     }
 
