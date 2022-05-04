@@ -6,24 +6,40 @@ const initialState = {
     loading: false,
     conversation: null,
     messageList: [],
-    error: ''
+    errorConversation: '',
+    errorMessages: '',
+    errorFriend: ''
 }
 
 const url = 'http://localhost:8000/conversation/'
+const urlMessage = 'http://localhost:8000/message/'
 
 export const fetchConversation = createAsyncThunk(
     'conversation/fetchConversation',
-    async (parameters ) => {
+    async (parameters, thunkApi ) => {
         const {friendID, userID} = parameters;
         if(!userID) return Promise.reject(new Error('Not connected'))
-        console.log(userID)
         const response = await axios.post(url + 'getConversation', {user1: friendID, user2: userID})
-        if(!response) return Promise.reject(new Error(response.data))
+        if(!response.data) return Promise.reject(new Error('Could not find the conversation'))
+        await thunkApi.dispatch(fetchMessages(response.data))
         return response.data
     }
 )
 
-//TODO convert conversation into message list + friend name
+export const fetchMessages = createAsyncThunk(
+    'conversation/fetchMessages',
+    async (conversation) => {
+        if(!conversation) return Promise.reject(new Error('No conversation'))
+        let messages = []
+        console.log(conversation)
+        for(let i = 0 ; i < conversation.messages.length ; i++) {
+            const message = await axios.post(urlMessage + 'getMessage', {id: conversation.messages[i]})
+            if(!message) return Promise.reject(new Error('Message not found'))
+            messages = [].concat(messages, message.data)
+        }
+        return messages
+    }
+)
 
 export const conversationSlice = createSlice({
     name: 'conversation',
@@ -38,7 +54,7 @@ export const conversationSlice = createSlice({
                 state.friend = ''
                 state.conversation = null
                 state.messageList = []
-                state.error = ''
+                state.errorConversation = ''
             })
             .addCase(fetchConversation.fulfilled, (state, action) => {
                 state.loading = false
@@ -47,6 +63,19 @@ export const conversationSlice = createSlice({
             .addCase(fetchConversation.rejected, (state, action) => {
                 state.loading = false
                 state.error = action.error.message
+            })
+            .addCase(fetchMessages.pending, (state) => {
+                state.loading = true
+                state.messageList = []
+                state.errorMessages = ''
+            })
+            .addCase(fetchMessages.fulfilled, (state, action) => {
+                state.loading = false
+                state.messageList = action.payload
+            })
+            .addCase(fetchMessages.rejected, (state, action) => {
+                state.loading = false
+                state.errorMessages = action.payload
             })
     }
 })

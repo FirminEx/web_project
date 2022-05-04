@@ -43,7 +43,7 @@ const getConversation = async (req, res) => {
     const verifyUser2 = await User.findById(user2)
     if(!verifyUser2) return res.status(201).send('Could not find user 2')
 
-    await Conversation.find({
+    await Conversation.findOne({
         $or: [{user1: user1, user2: user2}, {user1: user2, user2: user1}]
     })
         .then(response => res.status(200).json(response))
