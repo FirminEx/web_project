@@ -19,7 +19,10 @@ export const fetchConversation = createAsyncThunk(
     async (parameters, thunkApi ) => {
         const {friendID, userID} = parameters;
         if(!userID) return Promise.reject(new Error('Not connected'))
-        const response = await axios.post(url + 'getConversation', {user1: friendID, user2: userID})
+        let response = await axios.post(url + 'getConversation', {user1: friendID, user2: userID})
+        if(!response.data) {
+            response = await axios.post(url + 'createConversation', {user1: friendID, user2: userID})
+        }
         if(!response.data) return Promise.reject(new Error('Could not find the conversation'))
         await thunkApi.dispatch(fetchMessages(response.data))
         return response.data
@@ -31,7 +34,7 @@ export const fetchMessages = createAsyncThunk(
     async (conversation) => {
         if(!conversation) return Promise.reject(new Error('No conversation'))
         let messages = []
-        console.log(conversation)
+        //console.log(conversation)
         for(let i = 0 ; i < conversation.messages.length ; i++) {
             const message = await axios.post(urlMessage + 'getMessage', {id: conversation.messages[i]})
             if(!message) return Promise.reject(new Error('Message not found'))
