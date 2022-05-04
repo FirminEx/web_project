@@ -59,7 +59,7 @@ function NewPost() {
                     <div class='success'>{success ? 'Post created' : ''}</div>
                     <div className='error'>{newPostError && !success ? newPostError : ''}</div>
                     <div className='error'>{error && !success ? error : ''}</div>
-                    <img src={imageToBase64(user.picture)} alt="your profile" id="newpostpicture"/>
+                    {user.picture ? <img src={imageToBase64(user.picture)} alt="your profile" id="newpostpicture"/> : null}
                     <input type="text" placeholder="Write a new post" id="newposttext" onChange={textChange}/>
                     <input id='inputfile' type="file" onChange={handleFileInput} ref={fileInput}/>
                     <button onClick={inputFile}>{file ? file.name : "Select a file"}</button>

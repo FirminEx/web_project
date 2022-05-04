@@ -358,3 +358,13 @@ ul {
     width: 0;
     height: 0;
 }
+
+#friendRequests {
+    width: 60%;
+    margin-top: 20px;
+    border: solid lightgrey 0.5px;
+    border-radius: 20px;
+    padding: 20px;
+    font-size: 1.2rem;
+    font-weight: bold;
+}

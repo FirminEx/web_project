@@ -76,8 +76,8 @@ const sendFriendRequest = async (req, res) => {
     const targetUser = await User.findById(target);
     if(!targetUser) return res.status(201).send('could not find the target')
 
-    await User.findByIdAndUpdate(id, {
-        $addToSet: {friendRequests: target}
+    await User.findByIdAndUpdate(target, {
+        $addToSet: {friendRequests: id}
     }, {new: true})
         .then(response => res.status(200).json({id: response._id , friendRequests: response.friendRequests}))
         .catch(e => {
