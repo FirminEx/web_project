@@ -29,6 +29,25 @@ export const fetchRequests = createAsyncThunk(
     }
 )
 
+export const fetchFriends = createAsyncThunk(
+    'friends/fetchFriends',
+    async (user) => {
+        if(!user) return Promise.reject(new Error('Not connected'))
+        let friends = [];
+        for(let i = 0 ; i < user.friends.length ; i++) {
+            await axios.post(url + 'getUserId', {id: user.friends[i]})
+                .then(response => {
+                    if(!(response.status === 200)) return new Promise.reject(new Error(response.data))
+                    friends = [].concat(friends, response.data)
+                })
+                .catch(err => {
+                    return Promise.reject(new Error('Could not find request of ' + user.friends[i] + '\n' + err))
+                })
+        }
+        return friends
+    }
+)
+
 export const acceptRequest = createAsyncThunk(
     'friends/acceptRequest',
     async (users, thunkApi) => {
@@ -37,7 +56,6 @@ export const acceptRequest = createAsyncThunk(
         await axios.post(url + 'acceptFriendRequest', { id: user,target: target})
             .then(async () => {
                 await thunkApi.dispatch(fetchRequests())
-                //TODO fetch friends
             })
             .catch(err => {
                 return Promise.reject(new Error('Could not accept the friend request\n' + err))
@@ -64,6 +82,20 @@ export const friendsSlice = createSlice({
                 state.requests = action.payload
             })
             .addCase(fetchRequests.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload
+            })
+            .addCase(fetchFriends.pending, (state) => {
+                state.friends = []
+                state.requests = []
+                state.loading = true
+                state.error = ''
+            })
+            .addCase(fetchFriends.fulfilled, (state, action) => {
+                state.loading = false
+                state.friends = action.payload
+            })
+            .addCase(fetchFriends.rejected, (state, action) => {
                 state.loading = false
                 state.error = action.payload
             })
