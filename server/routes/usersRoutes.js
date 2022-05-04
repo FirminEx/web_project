@@ -1,5 +1,5 @@
 const express = require('express')
-const { getUsers, newUser, userLogIn, sendFriendRequest, addPost, getUserId} = require("../controller/usersControllers");
+const { getUsers, newUser, userLogIn, sendFriendRequest, addPost, getUserId, acceptFriendRequest} = require("../controller/usersControllers");
 
 const usersRouter = express.Router()
 
@@ -9,5 +9,6 @@ usersRouter.post('/sendFriendRequest', sendFriendRequest)
 usersRouter.post('/', newUser)
 usersRouter.post('/addPost', addPost)
 usersRouter.post('/getUserId', getUserId)
+usersRouter.post('/acceptFriendRequest', acceptFriendRequest)
 
 module.exports = usersRouter

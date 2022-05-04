@@ -110,7 +110,7 @@ const addPost = async (req, res) => {
 }
 
 const getUserId = async(req,res) => {
-    const {id} = req.body;
+    const { id } = req.body;
     if(!mongoose.isValidObjectId(id)) return res.status(201).send('Not a valid user id')
     const user = await User.findById(id).catch(e => {
         res.status(201).send('Could not find the user')
@@ -120,5 +120,48 @@ const getUserId = async(req,res) => {
    res.status(200).json(user)
 }
 
+const acceptFriendRequest = async (req, res) => {
+    const { id, target } = req.body;
+    if(!mongoose.isValidObjectId(id) || !mongoose.isValidObjectId(target)) return res.status(201).send('Not a valid user or target id')
 
-module.exports = { getUsers, newUser, userLogIn, sendFriendRequest, addPost, getUserId }
+    const user = await User.findById(id);
+    if(!user) return res.status(201).send('User not found')
+
+    const targetUser = await User.findById(target);
+    if(!targetUser) return res.status(201).send('Target user not found')
+
+    if(!user.friendRequests.includes(target)) return res.status(201).send('Target not in user requests')
+
+    User.findByIdAndUpdate(id, {
+        $pull: {friendRequests: target},
+        $addToSet: {friends: target}
+        },{new: true})
+        .then(userResponse => {
+            User.findByIdAndUpdate(target, {
+                $addToSet: {friends: id}
+            }, {new: true})
+                .then(targetUser => {
+                    return res.status(200).json({
+                        user: {
+                            userName: userResponse.userName,
+                            friendRequests: userResponse.friendRequests,
+                            friends: userResponse.friends
+                        },
+                        target: {
+                            userName: targetUser.userName,
+                            friends: targetUser.friends
+                        }})
+                })
+                .catch(err => {
+                    console.log(err)
+                    res.status(201).send('Could not update the target friend list')
+                })
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(201).send('Could not update user friend list or friend requests')
+        })
+}
+
+
+module.exports = { getUsers, newUser, userLogIn, sendFriendRequest, addPost, getUserId, acceptFriendRequest }
