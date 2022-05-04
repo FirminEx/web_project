@@ -1,4 +1,8 @@
 const mongoose = require('mongoose')
+const fs = require("fs");
+
+const default_image = fs.readFileSync('./models/default_profile.jpg');
+const buffer = Buffer.from(default_image.toString('base64'), 'base64')
 
 const postSchema = mongoose.Schema({
     author: {
@@ -32,6 +36,18 @@ const postSchema = mongoose.Schema({
         },
         type: {
             type: String
+        },
+    },
+    authorPicture: {
+        data: {
+            type: Buffer,
+            required: true,
+            default: buffer
+        },
+        type: {
+            type: String,
+            required: true,
+            default: "image/jpeg"
         },
     }
 });

@@ -3,6 +3,7 @@ import likes from "../src_logo/likes.jpg"
 import comment from "../src_logo/comment.png"
 import share from "../src_logo/share.png"
 import {imageToBase64} from "../data_process/image";
+import placeholder from "../img/placeholder.jpg";
 
 function Content(props) {
     let img = "";
@@ -14,7 +15,8 @@ function Content(props) {
         <div class="content">
             <div class="contentheader">
                 <div className="contentprofile">
-                    {img ? img : <div>could not load the picture</div>}
+                    {props.post.authorPicture ?  <img src={imageToBase64(props.post.authorPicture)} alt={props.post.author} className="friendpp"/>
+                        : <img src={placeholder} alt={props.post.author} className="friendpp"/> }
                     <div class="contentprofilename">
                         @{props.post.author}
                     </div>

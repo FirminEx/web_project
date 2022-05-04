@@ -16,8 +16,7 @@ export const createPost = createAsyncThunk(
         if(postData.media) {
             formData.append('media', postData.media)
         }
-        formData.append('author', postData.author)
-        formData.append('authorID', postData.authorID)
+        formData.append('userID', postData.userID)
         if(postData.text) formData.append('text', postData.text)
         const response = await axios.post(url, formData, {headers: {'Content-Type': 'multipart/form-data'}})
         if(!(response.status === 200)) {

@@ -22,7 +22,6 @@ function NewPost() {
     const handleFileInput = (e) => {
         e.preventDefault()
         const inputFile = e.target.files[0]
-        console.log(inputFile.type)
         if(inputFile.type !== "image/png" && inputFile.type !== "image/jpg" && inputFile.type !== "image/jpeg") {
             setError('Format accepted : jpg, png, jpeg')
             return
@@ -41,7 +40,7 @@ function NewPost() {
         if(!user) {
             return setError('No user logged in');
         }
-        const postData = {author: user.userName, authorID: user._id}
+        const postData = {userID: user._id}
         if(!text && !file) {
             return setError('Write some text or choose an image');
         }

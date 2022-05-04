@@ -19,38 +19,42 @@ const newPost = async (req, res) => {
     if(req.file) {
         path = __dirname + '/../' + req.file.path
         const img = fs.readFileSync(path)
-        //console.log(img)
         imgUpload = {
             data: img,
             type: req.file.mimetype
         }
     }
-    const { author, authorID, text } = req.body
-
-    if(!mongoose.isValidObjectId(authorID)) return res.status(201).send('Author Id not valid')
-
+    const { userID, text  } = req.body
+    if(!mongoose.isValidObjectId(userID)) return res.status(201).send('Author Id not valid')
+    const user = await User.findById(userID)
+        .catch(err => {
+            console.log(err);
+            res.status(201).send('Could not find the user')
+        })
+    if(!user) return res.status(201).send('Could not find the user')
     const post = {
-        author: author,
-        authorID: authorID,
+        author: user.userName,
+        authorID: userID,
         text: text,
         date: Date.now(),
+        authorPicture: user.picture,
     }
     if (imgUpload) {
         console.log(imgUpload)
         post['media'] = imgUpload
     }
 
-    const user = User.findById(authorID)
-    if(!user) return res.status(201).send('Could not find the user')
+
     Post.create(post)
     .then(response => {
-        res.status(200).json(response)
+        if(imgUpload) fs.unlinkSync(path)
+        return res.status(200).json(response)
     })
     .catch(err => {
         console.log(err.message)
-        res.status(401).send('Could not create the post')
+        if(imgUpload) fs.unlinkSync(path)
+        return res.status(401).send('Could not create the post')
     })
-    if(imgUpload) fs.unlinkSync(path)
 }
 
 const likePost = async (req, res) => {
