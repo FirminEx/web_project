@@ -19,7 +19,7 @@ export const fetchRequests = createAsyncThunk(
         for(let i = 0 ; i < user.friendRequests.length ; i++) {
             await axios.post(url + 'getUserId', {id: user.friendRequests[i]})
                 .then(response => {
-                    if(!(response.status === 200)) return new Promise.reject(new Error(response.data))
+                    if(!(response.status === 200)) return Promise.reject(new Error(response.data))
                     requests = [].concat(requests, response.data)
                 })
                 .catch(err => {

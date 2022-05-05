@@ -23,7 +23,7 @@ export const fetchProfile = createAsyncThunk(
     'profile/fetchProfile',
     async (id, thunkAPi) => {
         const response = await axios.post(url + 'getUserId', { id: id })
-        if(!(response.status === 200)) return new Promise.reject(new Error(response.data))
+        if(!(response.status === 200)) return Promise.reject(new Error(response.data))
         await thunkAPi.dispatch(fetchFriendsProfile(response.data))
         await thunkAPi.dispatch(fetchPostsProfile(response.data))
         return response.data;
@@ -38,7 +38,7 @@ export const fetchFriendsProfile = createAsyncThunk(
         for(let i = 0 ; i < user.friends.length ; i++) {
             await axios.post(url + 'getUserId', {id: user.friends[i]})
                 .then(response => {
-                    if(!(response.status === 200)) return new Promise.reject(new Error(response.data))
+                    if(!(response.status === 200)) return Promise.reject(new Error(response.data))
                     friends = [].concat(friends, response.data)
                 })
                 .catch(err => {
@@ -54,7 +54,7 @@ export const fetchPostsProfile = createAsyncThunk(
     async (user) => {
         const response = await axios.post(postsUrl + 'getPostsUser', {userID: user._id})
             .catch(err =>  Promise.reject(err.message))
-        if(!(response.status === 200)) return new Promise.reject(new Error(response.data))
+        if(!(response.status === 200)) return Promise.reject(new Error(response.data))
         return response.data
     }
 )
@@ -64,7 +64,7 @@ export const sendFriendRequest = createAsyncThunk(
     async (parameter) => {
         const response = await axios.post(url + 'sendFriendRequest', parameter)
             .catch(err => Promise.reject(err.message))
-        if(!(response.status === 200)) return new Promise.reject(new Error(response.data))
+        if(!(response.status === 200)) return Promise.reject(new Error(response.data))
         return response.data;
     }
 )

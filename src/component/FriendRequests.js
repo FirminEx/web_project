@@ -21,7 +21,7 @@ function FriendRequests() {
                     <li className='friendrequest' key={request._id}>
                     {request.picture ? <img src={imageToBase64(request.picture)} alt={request.userName} className="contentprofilepicture"/> : null}
                     {request.userName}
-                    <input type="checkbox" onClick={() => dispatch(acceptRequest({user: user._id, target: request._id}))}/>Accept
+                        <button type="checkbox" onClick={() => dispatch(acceptRequest({user: user._id, target: request._id}))}>Accept</button>
                     </li>)}
                 </>
             : user._id ?

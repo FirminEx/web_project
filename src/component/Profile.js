@@ -28,7 +28,7 @@ function Profile() {
                     user._id === profile._id ? "(You)"
                     : requestLoading ? <Spinner />
                             : requestSuccess ? <div className="success">Request sent</div>
-                    : requestError ? requestError
+                    : requestError ? <div className="error">{requestError}</div>
                     : <button onClick={() => dispatch(sendFriendRequest({ id: user._id, target: profile._id}))}>Add as friend</button>
                 }
             </div>
