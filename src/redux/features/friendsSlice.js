@@ -72,7 +72,6 @@ export const friendsSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(fetchRequests.pending, (state) => {
-                state.friends = []
                 state.requests = []
                 state.loading = true
                 state.error = ''
@@ -87,7 +86,6 @@ export const friendsSlice = createSlice({
             })
             .addCase(fetchFriends.pending, (state) => {
                 state.friends = []
-                state.requests = []
                 state.loading = true
                 state.error = ''
             })
