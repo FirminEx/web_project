@@ -87,7 +87,7 @@ const sendFriendRequest = async (req, res) => {
     }, {new: true})
         .then(response => res.status(200).json({id: response._id , friendRequests: response.friendRequests}))
         .catch(e => {
-            res.send(201).status('Could not send friend request');
+            res.status(201).send('Could not send friend request');
             console.log(e.message);
         })
 }
