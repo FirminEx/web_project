@@ -43,6 +43,12 @@ export const displaySlice = createSlice({
                 ...state,
                 display: 4
             }
+        },
+        goToSettings: (state) => {
+            return {
+                ...state,
+                display: 0
+            }
         }
     },
 
