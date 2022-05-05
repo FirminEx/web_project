@@ -6,6 +6,7 @@ import displaySlice from "./features/displaySlice";
 import friendsSlice from "./features/friendsSlice";
 import conversationSlice from "./features/conversationSlice";
 import newMessageSlice from "./features/newMessageSlice";
+import profileSlice from "./features/profileSlice";
 
 export const store = configureStore({
     reducer: {
@@ -16,5 +17,6 @@ export const store = configureStore({
         friends: friendsSlice,
         conversation: conversationSlice,
         newMessage: newMessageSlice,
+        profile: profileSlice,
     },
 })

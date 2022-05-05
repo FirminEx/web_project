@@ -5,6 +5,7 @@ import ExploreCheckBox from "./ExploreCheckBox";
 import ContentList from "./ContentList";
 import {useSelector} from "react-redux";
 import Conversation from "./Conversation";
+import Profile from "./Profile";
 
 function ContentPage() {
     const {display} = useSelector(state => state.display)
@@ -34,6 +35,10 @@ function ContentPage() {
         case 3:
             return(
                 <Conversation />
+            );
+        case 4:
+            return(
+                <Profile />
             );
         default:
             return(<div>Display error</div>)
