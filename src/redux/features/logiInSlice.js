@@ -89,7 +89,6 @@ export const logInSlice = createSlice({
             }
         },
         updateFriends: (state, action) => {
-            console.log(action.payload)
             return {
                 ...state,
                 user: {
