@@ -194,6 +194,18 @@ const changePlace = async (req, res) => {
     res.status(200).json(user)
 }
 
+const changeBio = async (req, res) => {
+    const { id, newBio } = req.body;
+    if(!mongoose.isValidObjectId(id)) return res.status(201).send('Invalid user id')
+    const user = await User.findByIdAndUpdate(id, {bio: newBio}, {new: true})
+        .catch(err => {
+            console.log(err)
+            return res.status(201).send('Could not update the bio')
+        })
+    if(!user) return res.status(201).send('Could not update the bio')
+    res.status(200).json(user)
+}
 
 
-module.exports = { getUsers, newUser, userLogIn, sendFriendRequest, addPost, getUserId, acceptFriendRequest, changeUsername, changePlace }
+
+module.exports = { getUsers, newUser, userLogIn, sendFriendRequest, addPost, getUserId, acceptFriendRequest, changeUsername, changePlace, changeBio }
