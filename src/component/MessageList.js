@@ -10,7 +10,7 @@ function MessageList(){
         {friends.length ?
             <ul id="messagelist">
                 Friends
-                {friends.map(friend => <Friend key={friend._id} user={friend} message={true}/>)}
+                {friends.map(friend => <Friend key={friend._id} user={friend} message={true} delete={false}/>)}
             </ul>
             : logged ?
                 <div id='messagelist'>No friends :(</div>

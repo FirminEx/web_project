@@ -1,6 +1,7 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axios from "axios";
 import {logInSlice} from "./logiInSlice";
+import {fetchFriends} from "./friendsSlice";
 
 const url = 'http://localhost:8000/users/'
 
@@ -52,6 +53,22 @@ export const changeBio = createAsyncThunk(
         const response = await axios.post(url + 'changeBio', {id: id, newBio: newBio})
         if(!(response.status === 200)) return Promise.reject(new Error(response.data))
         await thunkApi.dispatch(logInSlice.actions.updateBio(response.data))
+        return response.data
+    }
+)
+
+export const updateFriend = createAsyncThunk(
+    '/settings/deleteFriend',
+    async (parameters, thunkApi) => {
+        const { user, target } = parameters
+        const userID = user._id
+        const response = await axios.post(url + 'deleteFriend', {userID: userID, target: target})
+        if(!(response.status === 200)) return Promise.reject(new Error(response.data))
+        await thunkApi.dispatch(logInSlice.actions.updateFriends(response.data))
+        await thunkApi.dispatch(fetchFriends({//we have to fetch friends with the updated user, but the const user here is passed by copy (so it has the same values as before deleting the friend). So we pass a user with updated friends list
+            ...user,
+            friends: response.data
+        }))
         return response.data
     }
 )
@@ -111,6 +128,19 @@ export const settingsSlice = createSlice({
             .addCase(changeBio.rejected, (state, action) => {
                 state.loadingBio = false
                 state.errorBio = action.error.message
+            })
+            .addCase(updateFriend.pending, (state) => {
+                state.loadingFriends = true
+                state.errorFriends = ''
+                state.successFriends = false
+            })
+            .addCase(updateFriend.fulfilled, (state) => {
+                state.loadingFriends = false
+                state.successFriends = true
+            })
+            .addCase(updateFriend.rejected, (state, action) => {
+                state.loadingFriends = false
+                state.errorFriends = action.error.message
             })
 
     }

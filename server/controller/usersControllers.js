@@ -261,7 +261,7 @@ const deleteFriend = async (req, res) => {
         })
         .then(async response => {
             if(!response.friends.includes(target)) res.status(201).send('User does not have target as friend')
-            const user = await User.findByIdAndUpdate(userID, {$pull: {friends: target}})
+            const user = await User.findByIdAndUpdate(userID, {$pull: {friends: target}}, {new: true})
                 .catch(err => {
                     console.log(err)
                     return res.status(201).send('Could not update the user')

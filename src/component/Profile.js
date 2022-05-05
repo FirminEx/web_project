@@ -28,7 +28,7 @@ function Profile() {
             {friends.length ?
                 <ul id="messagelist">
                     Friends
-                    {friends.map(friend => <Friend key={friend._id} user={friend} message={false}/>)}
+                    {friends.map(friend => <Friend key={friend._id} user={friend} message={false} delete={false}/>)}
                 </ul>
                 : friendsLoading ? <Spinner />
                 : friendsError ? <div>{friendsError}</div>

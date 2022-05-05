@@ -6,6 +6,7 @@ import {displaySlice} from "../redux/features/displaySlice";
 import {fetchPostsDiscover} from "../redux/features/postsSlice";
 import Spinner from "./Spinner";
 import {changeBio, changePlace, changeUserName, settingsSlice} from "../redux/features/settingsSlice";
+import Friend from "./Friend";
 
 function SettingsPage() {
     const { user } = useSelector(state => state.logIn)
@@ -17,6 +18,7 @@ function SettingsPage() {
     const [userName, setUserName] = useState('');
     const dispatch = useDispatch()
     const { loadingUserName, successUserName, errorUserName, loadingPlace, successPlace, errorPlace, loadingBio, successBio, errorBio, loadingPicture, successPicture, errorPicture, loadingFriends, successFriends, errorFriends } = useSelector(state => state.settings)
+    const { friends } = useSelector(state => state.friends)
 
     let img ="";
     if(user.picture) {
@@ -125,6 +127,20 @@ function SettingsPage() {
                         {successBio ? <div className="success">Successfully changed the bio</div> : ''}
                         <div className="error">{errorBio ? errorBio : ''}</div>
                     </>
+                }
+            </div>
+            <div class="setting">
+                {   loadingFriends ? <Spinner />
+                    : friends.length ?
+                        <>
+                            <ul id="messagelist">
+                                Friends
+                                {friends.map(friend => <Friend key={friend._id} user={friend} message={false} delete={true}/>)}
+                            </ul>
+                            <div className="error">{errorFriends ? errorFriends : ''}</div>
+                            <div className="success">{successFriends ? "Successfully updated the friends" : null}</div>
+                        </>
+                    : "You do not have friends"
                 }
             </div>
             <h1 class="settingtitle">Display settings</h1>

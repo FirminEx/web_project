@@ -87,6 +87,16 @@ export const logInSlice = createSlice({
                     userName: action.payload
                 }
             }
+        },
+        updateFriends: (state, action) => {
+            console.log(action.payload)
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    friends: action.payload
+                }
+            }
         }
     },
     extraReducers: (builder) => {
