@@ -180,7 +180,7 @@ const changeUsername = async (req, res) => {
             return res.status(201).send('Could not update the user name')
         })
     if(!user) return res.status(201).send('Could not update the user name')
-    res.status(200).json(user)
+    res.status(200).json(user.userName)
 }
 
 const changePlace = async (req, res) => {
@@ -192,7 +192,7 @@ const changePlace = async (req, res) => {
             return res.status(201).send('Could not update the place')
         })
     if(!user) return res.status(201).send('Could not update the place')
-    res.status(200).json(user)
+    res.status(200).json(user.place)
 }
 
 const changeBio = async (req, res) => {
@@ -204,7 +204,7 @@ const changeBio = async (req, res) => {
             return res.status(201).send('Could not update the bio')
         })
     if(!user) return res.status(201).send('Could not update the bio')
-    res.status(200).json(user)
+    res.status(200).json(user.bio)
 }
 
 const changePicture = async (req, res) => {

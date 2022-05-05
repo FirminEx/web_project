@@ -1,11 +1,12 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axios from "axios";
+import {logInSlice} from "./logiInSlice";
 
 const url = 'http://localhost:8000/users/'
 
 const initialState = {
     loadingUserName: false,
-    successUserName: true,
+    successUserName: false,
     errorUserName: '',
     loadingPlace: false,
     successPlace: false,
@@ -27,7 +28,7 @@ export const changeUserName = createAsyncThunk(
         const { id, newUserName } = parameters;
         const response = await axios.post(url + 'changeUsername', {id: id, newUserName: newUserName})
         if(!(response.status === 200)) return Promise.reject(new Error(response.data))
-        //TODO update current profile (logIn slice new function fetch userName)
+        await thunkApi.dispatch(logInSlice.actions.updateUserName(response.data))
         return response.data
     }
 )
@@ -38,7 +39,8 @@ export const changePlace = createAsyncThunk(
         const { id, newPlace } = parameters;
         const response = await axios.post(url + 'changePlace', {id: id, newPlace: newPlace})
         if(!(response.status === 200)) return Promise.reject(new Error(response.data))
-        //TODO update current profile (logIn slice new function fetch userName)
+        console.log(response)
+        await thunkApi.dispatch(logInSlice.actions.updatePlace(newPlace))
         return response.data
     }
 )
@@ -49,7 +51,7 @@ export const changeBio = createAsyncThunk(
         const { id, newBio } = parameters;
         const response = await axios.post(url + 'changeBio', {id: id, newBio: newBio})
         if(!(response.status === 200)) return Promise.reject(new Error(response.data))
-        //TODO update current profile (logIn slice new function fetch userName)
+        await thunkApi.dispatch(logInSlice.actions.updateBio(response.data))
         return response.data
     }
 )
@@ -59,7 +61,15 @@ export const settingsSlice = createSlice({
     name: 'settings',
     initialState,
     reducers: {
-        resetSettings: () => initialState
+        resetSettings: () => initialState,
+        setErrorUserName: (state, action) => {
+            return {
+                ...state,
+                errorUserName: action.payload,
+                loadingUserName: '',
+                successUserName: false,
+            }
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -83,7 +93,7 @@ export const settingsSlice = createSlice({
             })
             .addCase(changePlace.fulfilled, (state) => {
                 state.loadingPlace = false
-                state.successUserPlace = true
+                state.successPlace = true
             })
             .addCase(changePlace.rejected, (state, action) => {
                 state.loadingPlace = false

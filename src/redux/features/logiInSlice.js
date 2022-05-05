@@ -61,6 +61,33 @@ export const logInSlice = createSlice({
             state.loading = false
             state.errorLogIn = ''
         },
+        updatePlace: (state, action) => {
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    place: action.payload
+                }
+            }
+        },
+        updateBio: (state, action) => {
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    bio: action.payload
+                }
+            }
+        },
+        updateUserName: (state, action) => {
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    userName: action.payload
+                }
+            }
+        }
     },
     extraReducers: (builder) => {
         builder
