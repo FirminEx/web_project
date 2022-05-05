@@ -40,7 +40,7 @@ export const changePlace = createAsyncThunk(
         const { id, newPlace } = parameters;
         const response = await axios.post(url + 'changePlace', {id: id, newPlace: newPlace})
         if(!(response.status === 200)) return Promise.reject(new Error(response.data))
-        console.log(response)
+        //console.log(response)
         await thunkApi.dispatch(logInSlice.actions.updatePlace(newPlace))
         return response.data
     }

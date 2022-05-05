@@ -6,7 +6,8 @@ const url = 'http://localhost:8000/users/'
 const initialState = {
     friends: [],
     requests: [],
-    loading: false,
+    loadingFriends: false,
+    loadingRequests: false,
     error: ''
 }
 
@@ -80,39 +81,39 @@ export const friendsSlice = createSlice({
         builder
             .addCase(fetchRequests.pending, (state) => {
                 state.requests = []
-                state.loading = true
+                state.loadingRequests = true
                 state.error = ''
             })
             .addCase(fetchRequests.fulfilled, (state, action) => {
-                state.loading = false
+                state.loadingRequests = false
                 state.requests = action.payload
             })
             .addCase(fetchRequests.rejected, (state, action) => {
-                state.loading = false
+                state.loadingRequests = false
                 state.error = action.payload
             })
             .addCase(fetchFriends.pending, (state) => {
                 state.friends = []
-                state.loading = true
+                state.loadingFriends = true
                 state.error = ''
             })
             .addCase(fetchFriends.fulfilled, (state, action) => {
-                state.loading = false
+                state.loadingFriends = false
                 state.friends = action.payload
             })
             .addCase(fetchFriends.rejected, (state, action) => {
-                state.loading = false
+                state.loadingFriends = false
                 state.error = action.payload
             })
             .addCase(acceptRequest.pending, (state) => {
-                state.loading = true
+                state.loadingRequests = true
                 state.error = ''
             })
             .addCase(acceptRequest.fulfilled, (state) => {
-                state.loading = false
+                state.loadingRequests = false
             })
             .addCase(acceptRequest.rejected, (state, action) => {
-                state.loading = false
+                state.loadingRequests = false
                 state.error = action.payload
             })
     }
