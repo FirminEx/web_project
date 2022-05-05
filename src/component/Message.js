@@ -3,7 +3,7 @@ import {imageToBase64} from "../data_process/image";
 import React from "react";
 
 function Message(props) {
-    const user = useSelector(state => state.logIn)
+    const {user} = useSelector(state => state.logIn)
     let img = null;
     if(props.message.media) {
         img = <img className='contentmedia' src={imageToBase64(props.message.media)} alt='post media'></img>

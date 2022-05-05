@@ -5,6 +5,7 @@ import newPostSlice from "./features/newPostSlice";
 import displaySlice from "./features/displaySlice";
 import friendsSlice from "./features/friendsSlice";
 import conversationSlice from "./features/conversationSlice";
+import newMessageSlice from "./features/newMessageSlice";
 
 export const store = configureStore({
     reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
         newPost: newPostSlice,
         display: displaySlice,
         friends: friendsSlice,
-        conversation: conversationSlice
+        conversation: conversationSlice,
+        newMessage: newMessageSlice,
     },
 })

@@ -51,7 +51,7 @@ export const fetchFriend = createAsyncThunk(
     'conversation/fetchFriend',
     async (friendID) => {
         const friend = await axios.post(urlUser + 'getUserId', {id: friendID})
-        console.log(friend)
+        //console.log(friend)
         if(!friend.data.userName) return Promise.reject(new Error('Friend not found'))
         return friend.data.userName
     }
