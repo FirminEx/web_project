@@ -74,7 +74,8 @@ const userLogIn = async (req, res) => {
 
 const sendFriendRequest = async (req, res) => {
     const { id, target } = req.body;
-    if(!mongoose.isValidObjectId(id) || !mongoose.isValidObjectId(target) || target === id) return res.status(201).send('Bad user id or target id (might be the same)')
+    if(!mongoose.isValidObjectId(id) || !mongoose.isValidObjectId(target)) return res.status(201).send('Bad user id or target id (might be the same)')
+    if( target === id) return res.status(201).send('You are already your best friend')
     let user = await User.findById(id);
     if(!user) return res.status(201).send('could not find the user');
 
