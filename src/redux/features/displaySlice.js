@@ -37,6 +37,12 @@ export const displaySlice = createSlice({
                 display: 3
             }
 
+        },
+        goToProfile: (state) => {
+            return {
+                ...state,
+                display: 4
+            }
         }
     },
 
