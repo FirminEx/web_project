@@ -2,6 +2,7 @@ const User = require('../models/userModel')
 const bcrypt = require("bcrypt");
 const Post = require("../models/postModel");
 const mongoose = require("mongoose");
+const fs = require("fs");
 
 const getUsers = async (req, res) => {
     User.find()
@@ -206,6 +207,30 @@ const changeBio = async (req, res) => {
     res.status(200).json(user)
 }
 
+const changePicture = async (req, res) => {
+    const { id } = req.body;
+    if(!mongoose.isValidObjectId(id)) return res.status(201).send('Invalid user id')
+    let imgUpload = null;
+    let path = null
+    if(req.file) {
+        path = __dirname + '/../' + req.file.path
+        const img = fs.readFileSync(path)
+        imgUpload = {
+            data: img,
+            type: req.file.mimetype
+        }
+    } else return res.status(201).send('A new profile picture is required')
+    const user = await User.findByIdAndUpdate(id, {picture: imgUpload}, {new: true})
+        .catch(err => {
+            console.log(err)
+            if(imgUpload) fs.unlinkSync(path)
+            return res.status(201).send('Could not update the profile picture')
+        })
+    if(imgUpload) fs.unlinkSync(path)
+    if(!user) return res.status(201).send('Could not update the profile picture')
+    res.status(200).json(user)
+}
 
 
-module.exports = { getUsers, newUser, userLogIn, sendFriendRequest, addPost, getUserId, acceptFriendRequest, changeUsername, changePlace, changeBio }
+
+module.exports = { getUsers, newUser, userLogIn, sendFriendRequest, addPost, getUserId, acceptFriendRequest, changeUsername, changePlace, changeBio, changePicture }
