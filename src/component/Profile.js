@@ -8,7 +8,7 @@ import {fetchPostsProfile} from "../redux/features/profileSlice";
 
 function Profile() {
     const { profile, loading, error, friends, friendsLoading, friendsError, posts, postsLoading, postsError } = useSelector(state => state.profile)
-    const { userName, date, picture } = profile
+    const { userName, date, picture, place, bio } = profile
     const dispatch = useDispatch()
 
     let img ="";
@@ -21,7 +21,9 @@ function Profile() {
          : error ? <div className='error'>error</div>
          : <div id='profile'>
             {img ? img : 'Profile picture could not be loaded'}
-            {userName}
+            <div>{userName}</div>
+            <div>{bio ? bio : 'No bio'}</div>
+            <div>{place ? 'Currently in ' + place : 'No place'}</div>
             Member since : {date.slice(0, 10)}
             {friends.length ?
                 <ul id="messagelist">
