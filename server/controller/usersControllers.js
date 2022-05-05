@@ -231,6 +231,24 @@ const changePicture = async (req, res) => {
     res.status(200).json(user)
 }
 
+const rejectFriendRequest = async (req, res) => {
+    const {userID, target} = req.body;
+    if(!mongoose.isValidObjectId(userID) || !mongoose.isValidObjectId(target)) return res.status(201).send('Invalid user or target id')
+    await User.findById(userID)
+        .catch(err => {
+            console.log(err)
+            res.status(201).send('Could not find the user')
+        })
+        .then(async response => {
+            if(!response.friendRequests.includes(target)) res.status(201).send('User does not have target request')
+            const user = await User.findByIdAndUpdate(userID, {$pull: {friendRequests: target}})
+                .catch(err => {
+                    console.log(err)
+                    return res.status(201).send('Could not update the user')
+                })
+            if(user) return res.status(200).json(user)
+            return res.status(201).send('Could not update the user')
+        })
+}
 
-
-module.exports = { getUsers, newUser, userLogIn, sendFriendRequest, addPost, getUserId, acceptFriendRequest, changeUsername, changePlace, changeBio, changePicture }
+module.exports = { getUsers, newUser, userLogIn, sendFriendRequest, addPost, getUserId, acceptFriendRequest, changeUsername, changePlace, changeBio, changePicture, rejectFriendRequest }

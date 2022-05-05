@@ -1,6 +1,6 @@
 const express = require('express')
 const { getUsers, newUser, userLogIn, sendFriendRequest, addPost, getUserId, acceptFriendRequest, changeUsername,
-    changePlace, changeBio, changePicture
+    changePlace, changeBio, changePicture, rejectFriendRequest
 } = require("../controller/usersControllers");
 const {multerMiddleware} = require("../config/multerConfig");
 
@@ -17,5 +17,6 @@ usersRouter.post('/changeUsername', changeUsername)
 usersRouter.post('/changePlace', changePlace)
 usersRouter.post('/changeBio', changeBio)
 usersRouter.post('/changePicture', multerMiddleware, changePicture)
+usersRouter.post('/rejectFriendRequest', rejectFriendRequest)
 
 module.exports = usersRouter
