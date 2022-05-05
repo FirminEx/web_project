@@ -10,7 +10,7 @@ const postSchema = mongoose.Schema({
         required: [true, 'An author is required']
     },
     authorID: {
-        type: [mongoose.Schema.Types.ObjectId]
+        type: mongoose.Schema.Types.ObjectId
     },
     text: {
         type: String,
