@@ -13,7 +13,10 @@ const initialState = {
     friendsError: '',
     posts: [],
     postsLoading: [],
-    postsError: []
+    postsError: [],
+    requestLoading: false,
+    requestSuccess: false,
+    requestError: ''
 }
 
 export const fetchProfile = createAsyncThunk(
@@ -53,6 +56,16 @@ export const fetchPostsProfile = createAsyncThunk(
             .catch(err =>  Promise.reject(err.message))
         if(!(response.status === 200)) return new Promise.reject(new Error(response.data))
         return response.data
+    }
+)
+
+export const sendFriendRequest = createAsyncThunk(
+    'profile/sendFriendRequest',
+    async (parameter) => {
+        const response = await axios.post(url + 'sendFriendRequest', parameter)
+            .catch(err => Promise.reject(err.message))
+        if(!(response.status === 200)) return new Promise.reject(new Error(response.data))
+        return response.data;
     }
 )
 
@@ -101,7 +114,20 @@ export const profileSlice = createSlice({
             })
             .addCase(fetchPostsProfile.rejected, (state, action) => {
                 state.postsLoading = false
-                state.postsError = action.error.messages
+                state.postsError = action.error.message
+            })
+            .addCase(sendFriendRequest.pending, (state) => {
+                state.requestLoading = true
+                state.requestSuccess = false
+                state.requestError = ''
+            })
+            .addCase(sendFriendRequest.fulfilled, (state) => {
+                state.requestLoading = false
+                state.requestSuccess = true
+            })
+            .addCase(sendFriendRequest.rejected, (state, action) => {
+                state.requestLoading = false
+                state.requestError = action.error.message
             })
     }
 })

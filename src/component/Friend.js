@@ -18,7 +18,7 @@ function Friend(props) {
 
     const goToProfile = (e) => {
         e.preventDefault();
-        dispatch(fetchProfile(user._id))
+        dispatch(fetchProfile(props.user._id))
         dispatch(displaySlice.actions.goToProfile())
     }
 

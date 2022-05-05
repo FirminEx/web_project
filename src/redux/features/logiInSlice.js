@@ -4,6 +4,7 @@ import {displaySlice} from './displaySlice'
 import {fetchPostsFriends, postsSlice} from "./postsSlice";
 import {fetchFriends, fetchRequests, friendsSlice} from "./friendsSlice";
 import {settingsSlice} from "./settingsSlice";
+import {profileSlice} from "./profileSlice";
 
 const url = 'http://localhost:8000/users/'
 
@@ -49,6 +50,7 @@ export const logOut = createAsyncThunk(
         await thunkApi.dispatch(friendsSlice.actions.resetFriends())
         await thunkApi.dispatch(postsSlice.actions.reset())
         await thunkApi.dispatch(settingsSlice.actions.resetSettings())
+        await thunkApi.dispatch(profileSlice.actions.resetProfile())
         await thunkApi.dispatch(displaySlice.actions.loggedOut())
     }
 )
