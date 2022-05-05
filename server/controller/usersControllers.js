@@ -42,6 +42,10 @@ const newUser = async(req, res) => {
         bio: bio,
         visibility: visibility
     })
+        .catch(err => {
+            console.log(err)
+            res.status(201).send('Could not create the status')
+        })
     if(user) {
         return res.status(200).json({_id: user._id, mail: user.mail, name: user.userName})
     }
@@ -163,5 +167,18 @@ const acceptFriendRequest = async (req, res) => {
         })
 }
 
+const changeUsername = async (req, res) => {
+    const { id, newUserName } = req.body;
+    if(!mongoose.isValidObjectId(id)) return res.status(201).send('Invalid id')
+    if(!(newUserName.length > 2)) return res.status(201).send('userName must be at least 3 characters')
+    const user = await User.findByIdAndUpdate(id, {userName: newUserName}, {new: true})
+        .catch(err => {
+            console.log(err)
+            res.status(201).send('Could not update the user name')
+        })
+    if(!user) return res.status(201).send('Could not update the user name')
+    res.status(200).json(user)
+}
 
-module.exports = { getUsers, newUser, userLogIn, sendFriendRequest, addPost, getUserId, acceptFriendRequest }
+
+module.exports = { getUsers, newUser, userLogIn, sendFriendRequest, addPost, getUserId, acceptFriendRequest, changeUsername }

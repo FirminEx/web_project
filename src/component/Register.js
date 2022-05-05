@@ -38,7 +38,7 @@ function Register() {
     const formSubmit = (event) => {
         event.preventDefault()
         if(!credits.passwordConf || !credits.password || !credits.mail || !credits.userName) return setError('All fields are required')
-        if(credits.userName.length < 4) return setError('Please enter an username with lenght > 3')
+        if(credits.userName.length < 3) return setError('Please enter an username with lenght > 3')
         if(!regEmail.test(credits.mail)) return setError('Enter a valid email')
         if(credits.password !== credits.passwordConf) return setError("Passwords don't match")
         dispatch(register(credits))

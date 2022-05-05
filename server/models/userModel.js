@@ -27,7 +27,7 @@ const userSchema = mongoose.Schema({
     },
     place: {
         type: String,
-        required: false
+        default: ''
     },
     date: {
         type: Date,
@@ -35,7 +35,7 @@ const userSchema = mongoose.Schema({
     },
     bio: {
       type: String,
-      required: false,
+      default: ''
     },
     visibility: {
         type: Boolean,
