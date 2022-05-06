@@ -8,8 +8,10 @@ const initialState = {
     postsList: [],
     loading: false,
     error: '',
-    postIdList: [],
     idFetched: false,
+    pageList: [],
+    lazyLoading: false,
+    postIdList: []
 }
 
 export const fetchPostsDiscover = createAsyncThunk(
@@ -46,18 +48,20 @@ export const lazyFetchPostsDiscover = createAsyncThunk(
     'posts/lazyFetchPostsDiscover',
     async (IdList) => {
         if(!IdList.length) return Promise.reject(new Error('No Id list'))
+        if(IdList.length < numberOfPosts) return Promise.reject(new Error('You saw all the posts'))
         let queryId = []
         let newIdList = [...IdList]
         let random = 0
-        for(let i = 0 ; (i < numberOfPosts && IdList.length >= i) ; i++) {
+        for(let i = 0 ; i < numberOfPosts ; i++) {
             random = Math.floor(Math.random() * newIdList.length)
+            if(!newIdList[random]._id) return Promise.reject(new Error('Could not load anymore posts'))
             queryId = [].concat(queryId, newIdList[random]._id)
             newIdList.splice(random, 1)
         }
         const postsList = await axios.post(url + '/getPostsId', {IdList: queryId})
             .catch(err => Promise.reject(new Error(`Could not find the post ${err}`)))
         if(!(postsList.status === 200)) return Promise.reject(new Error(`Could not find the posts, status = ${postsList.status} `))
-        return {postsList: postsList.data, newIdList: newIdList}
+        return {pageList: postsList.data, newIdList: newIdList}
     }
 
 )
@@ -129,18 +133,17 @@ export const postsSlice = createSlice({
                 state.postIdList = action.error.message
             })
             .addCase(lazyFetchPostsDiscover.pending, (state) => {
-                state.loading = true
-                state.postsList = []
+                state.lazyLoading = true
                 state.error = ''
             })
             .addCase(lazyFetchPostsDiscover.fulfilled, (state, action) => {
-                state.loading = false
-                state.postsList = action.payload.postsList
+                state.lazyLoading = false
+                state.pageList = [].concat(state.pageList, [action.payload.pageList])
                 state.postIdList = action.payload.newIdList
             })
             .addCase(lazyFetchPostsDiscover.rejected, (state, action) => {
-                state.loading = false
-                state.postIdList = action.error.message
+                state.lazyLoading = false
+                state.errorLazy = action.error.message
             })
 
     }

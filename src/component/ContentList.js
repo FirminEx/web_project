@@ -1,5 +1,5 @@
 import {useDispatch, useSelector} from "react-redux";
-import React, {useEffect, useRef} from "react";
+import React, {useEffect} from "react";
 import {
     fetchAllId,
     fetchPostsDiscover,
@@ -11,20 +11,9 @@ import Spinner from "./Spinner";
 
 function ContentList() {
     const dispatch = useDispatch();
-    const { postsList, loading, error, idFetched, postIdList } = useSelector((state) => state.posts);
+    const { postsList, loading, error, idFetched, postIdList, pageList, errorLazy, lazyLoading } = useSelector((state) => state.posts);
     const {display} = useSelector((state) => state.display)
     const {user} = useSelector((state) => state.logIn)
-
-    const listInnerRef = useRef();
-
-    const onScroll = () => {
-        if (listInnerRef.current) {
-            const { scrollTop, scrollHeight, clientHeight } = listInnerRef.current;
-            if (scrollTop + clientHeight === scrollHeight) {
-                console.log("reached bottom");
-            }
-        }
-    };
 
     useEffect(  () => {
         if(!(postIdList.length) && !(idFetched)) dispatch(fetchAllId())
@@ -45,11 +34,30 @@ function ContentList() {
         dispatch(fetchPostsDiscover());
     }
 
+    const onScroll = (e) => {
+        const bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
+        if (bottom) {
+            dispatch(lazyFetchPostsDiscover(postIdList))
+        }
+    }
+
     return(
-        <ul id='contentlist' onScroll={onScroll}>{postsList.length ? postsList.map((post) => <Content post={post} key={post._id}/>)
-            : loading ? <Spinner />
-                : error ? <div>{error}<button onClick={retryFetch}>Try again</button></div>
-                    : <div id="noposts">No posts available<button onClick={retryFetch}>Try again</button></div> }</ul>
+        <>{
+        pageList.length ?
+            <ul id="contentlist" >
+                {pageList.map(page => page.map(post => <Content post={post} key={post._id}/>))}
+                {errorLazy ? <div>{errorLazy}<button onClick={() => dispatch(lazyFetchPostsDiscover(postIdList))}>Try again</button></div> : ''}
+                { lazyLoading ? <Spinner/> : ''}
+            </ul>
+        : lazyLoading ? <Spinner />
+        : postsList.length ?
+            <ul id='contentlist' onScroll={onScroll}>{postsList.length ? postsList.map((post) => <Content post={post} key={post._id}/>)
+                : loading ? <Spinner />
+                    : error ? <div>{error}<button onClick={retryFetch}>Try again</button></div>
+                        : <div id="noposts">No posts available<button onClick={retryFetch}>Try again</button></div> }</ul>
+        : errorLazy ? <div>{errorLazy}</div>
+        : <div>No posts available</div>
+        }</>
     )
 }
 
