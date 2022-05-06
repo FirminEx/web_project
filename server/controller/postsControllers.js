@@ -103,6 +103,14 @@ const getPostsId = async (req, res) => {
     res.status(200).json(postsList);
 }
 
+const getAllId = async (req, res) => {
+    await Post.find({}, '_id')
+        .then(response => res.status(200).json(response))
+        .catch(err => {
+            console.log(err)
+                res.status(201).send('Error fetching posts id')
+        })
+}
 
 
-module.exports = { getPosts, newPost, likePost, getPostsUser, getPostsId }
+module.exports = { getPosts, newPost, likePost, getPostsUser, getPostsId, getAllId }
