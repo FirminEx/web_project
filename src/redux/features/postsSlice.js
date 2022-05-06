@@ -2,7 +2,7 @@ import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
 import axios from 'axios'
 
 const url = 'http://localhost:8000/posts'
-const numberOfPosts = 6
+const numberOfPosts = 8
 
 const initialState = {
     postsList: [],
