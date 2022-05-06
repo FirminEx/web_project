@@ -5,7 +5,7 @@ import {imageToBase64} from "../data_process/image";
 import {displaySlice} from "../redux/features/displaySlice";
 import {fetchPostsDiscover} from "../redux/features/postsSlice";
 import Spinner from "./Spinner";
-import {changeBio, changePlace, changeUserName, settingsSlice} from "../redux/features/settingsSlice";
+import {changeBio, changePlace, changeUserName, settingsSlice, updatePicture} from "../redux/features/settingsSlice";
 import Friend from "./Friend";
 import Compressor from 'compressorjs'
 
@@ -52,7 +52,10 @@ function SettingsPage() {
 
     }
 
-    const submitPicture = () => {
+    const submitPicture = (e) => {
+        e.preventDefault();
+        if(!file) setError('Pleaser select a profile picture')
+        dispatch(updatePicture({id: user._id, media: file}))
     }
 
     const bioChange = (e) => {
@@ -107,7 +110,7 @@ function SettingsPage() {
                     </>
                 }</>
                 <button onClick={submitPicture}>Submit</button>
-                <div className="success">{successPicture}</div>
+            <div className="success">{successPicture ? "Changed the picture" : ''}</div>
             <div className="setting">
                 {loadingUserName ? <Spinner/>
                     : <>

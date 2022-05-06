@@ -100,6 +100,15 @@ export const logInSlice = createSlice({
                     friends: action.payload
                 }
             }
+        },
+        updatePicture: (state, action) => {
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    picture: action.payload
+                }
+            }
         }
     },
     extraReducers: (builder) => {

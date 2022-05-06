@@ -73,6 +73,23 @@ export const updateFriend = createAsyncThunk(
     }
 )
 
+export const updatePicture = createAsyncThunk(
+    '/settings/updatePictures',
+    async (parameters, thunkApi) => {
+        const { id, media } = parameters
+        if(!id || !media) return Promise.reject(new Error('Need a valid user and picture'))
+        let formData = new FormData();
+        formData.append('media', media);
+        formData.append('id', id);
+        const response = await axios.post(url + 'changePicture', formData, {headers: {'Content-Type': 'multipart/form-data'}})
+        if(!(response.status === 200)) {
+            return Promise.reject(new Error(response.data))
+        }
+        await thunkApi.dispatch(logInSlice.actions.updatePicture(response.data))
+        return response.data
+    }
+)
+
 
 export const settingsSlice = createSlice({
     name: 'settings',
@@ -141,6 +158,19 @@ export const settingsSlice = createSlice({
             .addCase(updateFriend.rejected, (state, action) => {
                 state.loadingFriends = false
                 state.errorFriends = action.error.message
+            })
+            .addCase(updatePicture.pending, (state) => {
+                state.loadingPicture = true
+                state.errorPicture = ''
+                state.successPicture = false
+            })
+            .addCase(updatePicture.fulfilled, (state) => {
+                state.loadingPicture = false
+                state.successPicture = true
+            })
+            .addCase(updatePicture.rejected, (state, action) => {
+                state.loadingPicture = false
+                state.errorPicture = action.error.message
             })
 
     }

@@ -229,7 +229,7 @@ const changePicture = async (req, res) => {
         })
     if(imgUpload) fs.unlinkSync(path)
     if(!user) return res.status(201).send('Could not update the profile picture')
-    res.status(200).json(user)
+    res.status(200).json(user.picture)
 }
 
 const rejectFriendRequest = async (req, res) => {
