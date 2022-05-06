@@ -9,7 +9,6 @@ function FriendRequests() {
     const { requests, loadingRequests } = useSelector((state) => state.friends)
     const dispatch = useDispatch()
     const {user} = useSelector((state) => state.logIn)
-    console.log(loadingRequests)
     return(
         <ul id='friendrequestslist'>
             {

@@ -108,7 +108,7 @@ const getAllId = async (req, res) => {
         .then(response => res.status(200).json(response))
         .catch(err => {
             console.log(err)
-                res.status(201).send('Error fetching posts id')
+            res.status(201).send('Error fetching posts id')
         })
 }
 

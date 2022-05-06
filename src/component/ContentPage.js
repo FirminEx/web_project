@@ -9,39 +9,41 @@ import Profile from "./Profile";
 
 function ContentPage() {
     const {display} = useSelector(state => state.display)
-    switch (display){
+
+
+    switch (display) {
         case 0:
-            return(
-              <SettingsPage />
+            return (
+                <SettingsPage/>
             );
         case 1:
-            return(
+            return (
                 <ul id="contentpage">
-                    <NewPost />
+                    <NewPost/>
                     <ExploreCheckBox/>
-                    <ContentList />
+                    <ContentList/>
                 </ul>
             );
 
         case 2: //not connected
-            return(
+            return (
                 <ul id="contentpage">
-                    <NewPost />
+                    <NewPost/>
                     <ExploreCheckBox/>
                     <ContentList />
                 </ul>
             );
 
         case 3:
-            return(
-                <Conversation />
+            return (
+                <Conversation/>
             );
         case 4:
-            return(
-                <Profile />
+            return (
+                <Profile/>
             );
         default:
-            return(<div>Display error</div>)
+            return (<div>Display error</div>)
 
     }
 }

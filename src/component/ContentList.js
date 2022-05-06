@@ -1,24 +1,42 @@
 import {useDispatch, useSelector} from "react-redux";
-import React, {useEffect} from "react";
-import {fetchPostsDiscover, fetchPostsFriends, postsSlice} from "../redux/features/postsSlice";
+import React, {useEffect, useRef} from "react";
+import {
+    fetchAllId,
+    fetchPostsDiscover,
+    fetchPostsFriends, lazyFetchPostsDiscover,
+    postsSlice
+} from "../redux/features/postsSlice";
 import Content from "./Content";
 import Spinner from "./Spinner";
 
 function ContentList() {
     const dispatch = useDispatch();
-    const { postsList, loading, error  } = useSelector((state) => state.posts);
+    const { postsList, loading, error, idFetched, postIdList } = useSelector((state) => state.posts);
     const {display} = useSelector((state) => state.display)
     const {user} = useSelector((state) => state.logIn)
-    useEffect(() => {
-        if(!postsList.length && (error === '') && display === 2) {
-            dispatch(fetchPostsDiscover());
+
+    const listInnerRef = useRef();
+
+    const onScroll = () => {
+        if (listInnerRef.current) {
+            const { scrollTop, scrollHeight, clientHeight } = listInnerRef.current;
+            if (scrollTop + clientHeight === scrollHeight) {
+                console.log("reached bottom");
+            }
         }
-        if(!postsList.length && (error === '') && display === 1) {
-            if(user.friends) dispatch(fetchPostsFriends(user));
+    };
+
+    useEffect(  () => {
+        if(!(postIdList.length) && !(idFetched)) dispatch(fetchAllId())
+        if (!postsList.length && (error === '') && display === 2 && postIdList.length) {
+           dispatch(lazyFetchPostsDiscover(postIdList))
+        }
+        if (!postsList.length && (error === '') && display === 1) {
+            if (user.friends) dispatch(fetchPostsFriends(user));
             else dispatch(postsSlice.actions.reset())
 
         }
-    }, [display])
+    }, [display, postIdList])
 
     const retryFetch = () => {
         if(display === 1) {
@@ -28,7 +46,7 @@ function ContentList() {
     }
 
     return(
-        <ul id='contentlist'>{postsList.length ? postsList.map((post) => <Content post={post} key={post._id}/>)
+        <ul id='contentlist' onScroll={onScroll}>{postsList.length ? postsList.map((post) => <Content post={post} key={post._id}/>)
             : loading ? <Spinner />
                 : error ? <div>{error}<button onClick={retryFetch}>Try again</button></div>
                     : <div id="noposts">No posts available<button onClick={retryFetch}>Try again</button></div> }</ul>

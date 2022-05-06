@@ -1,7 +1,7 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axios from "axios";
 import {displaySlice} from './displaySlice'
-import {fetchPostsFriends, postsSlice} from "./postsSlice";
+import { fetchPostsFriends, postsSlice} from "./postsSlice";
 import {fetchFriends, fetchRequests, friendsSlice} from "./friendsSlice";
 import {settingsSlice} from "./settingsSlice";
 import {profileSlice} from "./profileSlice";
@@ -13,7 +13,7 @@ const initialState = {
     loading: false,
     errorLogIn: '',
     errorRegister: '',
-    connected: false
+    connected: false,
 }
 
 export const logIn = createAsyncThunk(
