@@ -9,7 +9,7 @@ function MainPage() {
         <div id='mainpage'>
             <Control />
             <ContentPage/>
-            <NavigationBar isConnected={true} />
+            <NavigationBar />
         </div>
     );
 

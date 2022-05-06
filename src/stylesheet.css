@@ -449,3 +449,13 @@ ul {
 #profile {
     width: 100%;
 }
+
+#searchbar {
+    width: 80%;
+    border: solid lightgrey 0.5px;
+    height: 25px;
+    padding: 20px;
+    margin: 20px;
+    font-size: 1.2rem;
+    font-weight: bold;
+}

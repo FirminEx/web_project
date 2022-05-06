@@ -10,6 +10,7 @@ function Profile() {
     const { profile, loading, error, friends, friendsLoading, friendsError, posts, postsLoading, postsError, requestLoading, requestSuccess, requestError } = useSelector(state => state.profile)
     const { userName, date, picture, place, bio } = profile
     const { user } = useSelector(state => state.logIn)
+    const { logged } = useSelector(state => state.display)
     const dispatch = useDispatch()
 
     let img ="";
@@ -27,9 +28,10 @@ function Profile() {
                 {
                     user._id === profile._id ? "(You)"
                     : requestLoading ? <Spinner />
-                            : requestSuccess ? <div className="success">Request sent</div>
+                    : requestSuccess ? <div className="success">Request sent</div>
                     : requestError ? <div className="error">{requestError}</div>
-                    : <button onClick={() => dispatch(sendFriendRequest({ id: user._id, target: profile._id}))}>Add as friend</button>
+                    : logged ? <button onClick={() => dispatch(sendFriendRequest({ id: user._id, target: profile._id}))}>Add as friend</button>
+                    : null
                 }
             </div>
             <div>{bio ? bio : 'No bio'}</div>

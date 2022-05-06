@@ -1,12 +1,12 @@
 import React from "react";
-import Trending from "./Trending";
 import MessageList from "./MessageList";
 import FriendRequests from "./FriendRequests";
+import Search from './Search'
 
 function NavigationBar() {
     return(
         <div id="navigationbar">
-            <Trending />
+            <Search />
             <MessageList />
             <FriendRequests />
         </div>

@@ -8,6 +8,7 @@ import conversationSlice from "./features/conversationSlice";
 import newMessageSlice from "./features/newMessageSlice";
 import profileSlice from "./features/profileSlice";
 import settingsSlice from "./features/settingsSlice";
+import searchSlice from "./features/searchSlice";
 
 export const store = configureStore({
     reducer: {
@@ -20,5 +21,6 @@ export const store = configureStore({
         newMessage: newMessageSlice,
         profile: profileSlice,
         settings: settingsSlice,
+        search: searchSlice,
     },
 })
