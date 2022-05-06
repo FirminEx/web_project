@@ -87,7 +87,6 @@ const getPostsUser = async (req, res) => {
 
 const getPostsId = async (req, res) => {
     const { IdList } = req.body;
-    console.log(req.body)
     if(!IdList) return res.status(201).send(`Incorrect ID List`)
     let postsList = [];
     for (let i = 0 ; i < IdList.length ; i++) {
