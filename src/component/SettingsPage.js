@@ -7,6 +7,7 @@ import {fetchPostsDiscover} from "../redux/features/postsSlice";
 import Spinner from "./Spinner";
 import {changeBio, changePlace, changeUserName, settingsSlice} from "../redux/features/settingsSlice";
 import Friend from "./Friend";
+import Compressor from 'compressorjs'
 
 function SettingsPage() {
     const { user } = useSelector(state => state.logIn)
@@ -30,14 +31,25 @@ function SettingsPage() {
         fileInput.current.click()
     }
 
-    const handleFileInput = (e) => {
+    const handleFileInput = async (e) => {
         e.preventDefault()
         const inputFile = e.target.files[0]
-        if(inputFile.type !== "image/png" && inputFile.type !== "image/jpg" && inputFile.type !== "image/jpeg") {
+        if (inputFile.type !== "image/png" && inputFile.type !== "image/jpg" && inputFile.type !== "image/jpeg") {
             setError('Format accepted : jpg, png, jpeg')
             return
         }
-        setFile(inputFile)
+        await new Compressor(inputFile,
+            {
+                quality: 0.2,
+                success(file)
+                    {
+                        setFile(file)
+                    },
+                error(err) {
+                    setError(err.message)
+                }
+            })
+
     }
 
     const submitPicture = () => {

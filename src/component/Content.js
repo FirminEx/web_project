@@ -37,7 +37,14 @@ function Content(props) {
             <div class="contenttext">{props.post.text}</div>
             {img ? img : ""}
             <ul class="contentinteractionlist">
-                <li class="contentinteractionlogo">
+
+            </ul>
+        </div>
+    );
+
+}
+/*
+<li class="contentinteractionlogo">
                     {props.post.likers ? props.post.likers.length : 0}
                     <img src={likes} alt="like logo" class="contentlogo"/>
                 </li>
@@ -48,12 +55,7 @@ function Content(props) {
                 <li className="contentinteractionlogo">
                     <img src={share} alt="share logo" className="contentlogo"/>
                 </li>
-            </ul>
-        </div>
-    );
-
-}
-
+ */
 
 export default Content;
 

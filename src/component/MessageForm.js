@@ -2,6 +2,7 @@ import React, {useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {createMessage} from "../redux/features/newMessageSlice";
 import {fetchMessages} from "../redux/features/conversationSlice";
+import Compressor from "compressorjs";
 
 function MessageForm() {
     const fileInput = useRef(null)
@@ -18,14 +19,23 @@ function MessageForm() {
         fileInput.current.click()
     }
 
-    const handleFileInput = (e) => {
+    const handleFileInput = async (e) => {
         e.preventDefault()
         const inputFile = e.target.files[0]
-        if(inputFile.type !== "image/png" && inputFile.type !== "image/jpg" && inputFile.type !== "image/jpeg") {
+        if (inputFile.type !== "image/png" && inputFile.type !== "image/jpg" && inputFile.type !== "image/jpeg") {
             setError('Format accepted : jpg, png, jpeg')
             return
         }
-        setFile(inputFile)
+        await new Compressor(inputFile,
+            {
+                quality: 0.4,
+                success(file) {
+                    setFile(file)
+                },
+                error(err) {
+                    setError(err.message)
+                }
+            })
     }
 
     const textChange = (e) => {

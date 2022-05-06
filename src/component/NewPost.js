@@ -3,6 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import Spinner from "./Spinner";
 import {createPost, newPostSlice} from "../redux/features/newPostSlice";
 import {imageToBase64} from "../data_process/image";
+import Compressor from "compressorjs";
 
 function NewPost() {
     const fileInput = useRef(null)
@@ -19,14 +20,23 @@ function NewPost() {
         fileInput.current.click()
     }
 
-    const handleFileInput = (e) => {
+    const handleFileInput = async (e) => {
         e.preventDefault()
         const inputFile = e.target.files[0]
-        if(inputFile.type !== "image/png" && inputFile.type !== "image/jpg" && inputFile.type !== "image/jpeg") {
+        if (inputFile.type !== "image/png" && inputFile.type !== "image/jpg" && inputFile.type !== "image/jpeg") {
             setError('Format accepted : jpg, png, jpeg')
             return
         }
-        setFile(inputFile)
+        await new Compressor(inputFile,
+            {
+                quality: 0.4,
+                success(file) {
+                    setFile(file)
+                },
+                error(err) {
+                    setError(err.message)
+                }
+            })
     }
 
     const textChange = (e) => {
