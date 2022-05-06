@@ -85,5 +85,24 @@ const getPostsUser = async (req, res) => {
     if(!user) return res.status(201).send('Could not find the user');
 }
 
+const getPostsId = async (req, res) => {
+    const { IdList } = req.body;
+    console.log(req.body)
+    if(!IdList) return res.status(201).send(`Incorrect ID List`)
+    let postsList = [];
+    for (let i = 0 ; i < IdList.length ; i++) {
+        if(!mongoose.isValidObjectId(IdList[i])) return res.status(201).send(`Incorrect ID ${IdList[i]}`)
+        const post = await Post.findById(IdList[i])
+            .catch(err => {
+                console.log(err)
+                return res.status(201).send(`Error could not fetch post ${i}`)
+            })
+        if(!post) return res.status(201).send(`Error could not fetch post ${i}`)
+        postsList = [].concat(postsList, post);
+    }
+    res.status(200).json(postsList);
+}
 
-module.exports = { getPosts, newPost, likePost, getPostsUser }
+
+
+module.exports = { getPosts, newPost, likePost, getPostsUser, getPostsId }
