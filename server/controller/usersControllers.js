@@ -27,7 +27,7 @@ const newUser = async(req, res) => {
     const userMail = await User.findOne( { mail })
     if(userMail) {
         console.log(mail + ' is already used');
-        res.status(201).send('This mail is already used')
+        return res.status(201).send('This mail is already used')
     }
     //Hash the password
     const salt = await bcrypt.genSalt(10)
@@ -45,7 +45,7 @@ const newUser = async(req, res) => {
     })
         .catch(err => {
             console.log(err)
-            res.status(201).send('Could not create the status')
+            return res.status(201).send('Could not create the status')
         })
     if(user) {
         return res.status(200).json({_id: user._id, mail: user.mail, name: user.userName})
@@ -272,5 +272,24 @@ const deleteFriend = async (req, res) => {
             return res.status(201).send('Could not update the user')
         })
 }
+//find user whose name contains "query", must be at least 3 char
+const findUsersLike = async (req, res) => {
+    const { query } = req.body;
+    const regex = `${query}`
+    if(query.length < 3) return res.status(201).send('Query too small');
+    const users = await User.find({userName: { $regex: regex, $options: 'i' }})
+        .catch(err => {
+        console.log(err);
+        return res.status(201).send('Could not find the users')
+        })
+    const test = users.map(user => {
+        return {
+            name: user.userName,
+            id: user._id,
+            picture: user.picture
+        }
+    })
+    res.status(200).json(test);
+}
 
-module.exports = { getUsers, newUser, userLogIn, sendFriendRequest, addPost, getUserId, acceptFriendRequest, changeUsername, changePlace, changeBio, changePicture, rejectFriendRequest, deleteFriend }
+module.exports = { getUsers, newUser, userLogIn, sendFriendRequest, addPost, getUserId, acceptFriendRequest, changeUsername, changePlace, changeBio, changePicture, rejectFriendRequest, deleteFriend, findUsersLike }
