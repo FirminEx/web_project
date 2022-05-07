@@ -8,8 +8,8 @@ import {useSelector} from "react-redux";
 function Connexion() {
     const { user, connected, loading, errorLogIn, errorRegister  } = useSelector((state) => state.logIn);
     return(
-        <>{connected ? <Disconnect username={user.userName}/>
-            : loading ? <Spinner />
+        <>{connected ? <Disconnect username={user.userName} id="connexion"/>
+            : loading ? <Spinner id="connexion"/>
                 : errorLogIn || errorRegister ? <div id="connexion"><LogIn /><Register /></div>
                 : <div id="connexion"><LogIn /><Register /></div>}
             </>

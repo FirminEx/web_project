@@ -8,21 +8,21 @@ function Conversation() {
     const { messageList, loading, friend } = useSelector((state) => state.conversation)
     const dispatch = useDispatch()
 
-    return <>
-        <button onClick={() => dispatch(displaySlice.actions.goToDiscover())}>Back to main</button>
+    return <div id="conversation">
+        <button className="leave" onClick={() => dispatch(displaySlice.actions.goToDiscover())}>X</button>
         {
         loading ? <Spinner />
             : messageList.length ?
-                <div id="conversation">
-                    <div id="friendname">{friend ? friend : ""}</div>
+                <>
+                    <div id="friendname">@{friend ? friend : ""}</div>
                     <ul id="conversationlist">
                         {messageList.map(message => <Message message={message} key={message._id}/>)}
                     </ul>
                     <MessageForm />
-                </div>
+                </>
                 : messageList ? <div id="conversation">No messages yet<MessageForm /></div>
                 : <div id="conversation">Could not load the messages </div>
-    }</>
+    }</div>
 
 
 }

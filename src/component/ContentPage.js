@@ -8,7 +8,7 @@ import Conversation from "./Conversation";
 import Profile from "./Profile";
 
 function ContentPage() {
-    const {display} = useSelector(state => state.display)
+    const {display, logged} = useSelector(state => state.display)
 
 
     switch (display) {
@@ -25,11 +25,11 @@ function ContentPage() {
                 </ul>
             );
 
-        case 2: //not connected
+        case 2: //discover
             return (
                 <ul id="contentpage">
                     <NewPost/>
-                    <ExploreCheckBox/>
+                    {logged ? <ExploreCheckBox /> : ''}
                     <ContentList />
                 </ul>
             );

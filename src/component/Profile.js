@@ -5,6 +5,7 @@ import React from "react";
 import Friend from "./Friend";
 import Content from "./Content";
 import {fetchPostsProfile, sendFriendRequest} from "../redux/features/profileSlice";
+import {displaySlice} from "../redux/features/displaySlice";
 
 function Profile() {
     const { profile, loading, error, friends, friendsLoading, friendsError, posts, postsLoading, postsError, requestLoading, requestSuccess, requestError } = useSelector(state => state.profile)
@@ -15,16 +16,19 @@ function Profile() {
 
     let img ="";
     if(picture) {
-        img = <img className='contentprofilepicture' src={imageToBase64(picture)} alt='post media'></img>
+        img = <img id='headerprofilepicture' src={imageToBase64(picture)} alt='post media'></img>
     }
 
     return (<>{
         loading ? <div id='profile'><Spinner /></div>
         : error ? <div className='error'>error</div>
         : <div id='profile'>
-            {img ? img : 'Profile picture could not be loaded'}
-            <div>
-                {userName}
+            <button className="leave" onClick={() => dispatch(displaySlice.actions.goToDiscover())}>
+                X
+            </button>
+            <div id="profileheader">
+                {img ? img : 'Profile picture could not be loaded'}
+                <div id="profileheadername">@{userName}</div>
                 {
                     user._id === profile._id ? "(You)"
                     : requestLoading ? <Spinner />
@@ -34,12 +38,12 @@ function Profile() {
                     : null
                 }
             </div>
-            <div>{bio ? bio : 'No bio'}</div>
-            <div>{place ? 'Currently in ' + place : 'No place'}</div>
-            Member since : {date.slice(0, 10)}
+            <div id="bio">{bio ? bio : 'No bio'}</div>
+            <div id="place">{place ? 'Currently in ' + place : 'No place'}</div>
+            Member since : {date ? date.slice(0, 10) : ""}
             {
                 friends.length ?
-                <ul id="messagelist">
+                <ul id="profilefriends">
                     Friends
                     {friends.map(friend => <Friend key={friend._id} user={friend} message={false} delete={false}/>)}
                 </ul>

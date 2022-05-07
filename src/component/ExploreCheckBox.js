@@ -1,21 +1,14 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {displaySlice} from "../redux/features/displaySlice";
 import {postsSlice} from "../redux/features/postsSlice";
 
 function ExploreCheckBox() {
-    const {display, logged} = useSelector(state => state.display);
-    const [hint, setHint] = useState('');
+    const {display} = useSelector(state => state.display);
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        if(display === 2) setHint('Explore')
-        if(display === 1) setHint('Friends posts')
-    }, [display])
-
-    const handleClick = (e) => {
+    const handleClick = async (e) => {
         e.preventDefault()
-        if(!logged) return setHint('Explore you are not logged in')
         dispatch(postsSlice.actions.reset())
         if(display === 2) dispatch(displaySlice.actions.goToFriendsPosts())
         if(display === 1) dispatch(displaySlice.actions.goToDiscover())
@@ -23,8 +16,7 @@ function ExploreCheckBox() {
 
    return(
         <div id="explorecheckbox">
-            <input type="checkbox" onChange={handleClick}/>
-            <div id="checkboxhint">{hint}</div>
+            <button onClick={handleClick}>{display === 2 ? "Go to friends" : "Go to explore"}</button>
         </div>
     );
 }

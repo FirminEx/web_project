@@ -71,8 +71,8 @@ function NewPost() {
                     {user.picture ? <img src={imageToBase64(user.picture)} alt="your profile" id="newpostpicture"/> : null}
                     <input type="text" placeholder="Write a new post" id="newposttext" onChange={textChange}/>
                     <input id='inputfile' type="file" onChange={handleFileInput} ref={fileInput}/>
-                    <button onClick={inputFile}>{file ? file.name : "Select a file"}</button>
-                    <button type="submit" onClick={submitPost}>Post</button>
+                    <button className="selectfile" onClick={inputFile}>{file ? file.name : "Media"}</button>
+                    <button className="post" type="submit" onClick={submitPost}>Post</button>
                 </form>
                 : <div id='newpost'>Connect to be able to post</div>
         }</>

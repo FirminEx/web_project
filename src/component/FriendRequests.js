@@ -3,6 +3,7 @@ import {imageToBase64} from "../data_process/image";
 import {acceptRequest, fetchRequests} from "../redux/features/friendsSlice";
 import React from "react";
 import Spinner from "./Spinner";
+import Refresh from "./Refresh";
 
 
 function FriendRequests() {
@@ -10,26 +11,30 @@ function FriendRequests() {
     const dispatch = useDispatch()
     const {user} = useSelector((state) => state.logIn)
     return(
-        <ul id='friendrequestslist'>
+        <div id='friendrequestscontainer'>
             {
             loadingRequests ? <Spinner />
             : requests.length ?
-                <>
-                    <button onClick={() => dispatch(fetchRequests(user))}>Refresh</button>
+                <ul id="friendrequestlist">
                     {requests.map(request =>
                     <li className='friendrequest' key={request._id}>
                     {request.picture ? <img src={imageToBase64(request.picture)} alt={request.userName} className="contentprofilepicture"/> : null}
-                    {request.userName}
+                    @{request.userName}
                         <button type="checkbox" onClick={() => dispatch(acceptRequest({user: user._id, target: request._id}))}>Accept</button>
                     </li>)}
-                </>
+                    <button className="refresh" onClick={() => dispatch(fetchRequests(user))}>
+                        <Refresh />
+                    </button>
+                </ul>
             : user._id ?
-                <div>
+                <div id="friendrequest">
                     No new friend requests
-                    <button onClick={() => dispatch(fetchRequests(user))}>Refresh</button>
+                    <button className="refresh" onClick={() => dispatch(fetchRequests(user))}>
+                        <Refresh />
+                    </button>
                 </div>
             : <div>Connect to see friend requests</div>}
-        </ul>
+        </div>
     );
 }
 

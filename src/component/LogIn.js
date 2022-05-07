@@ -26,8 +26,10 @@ function LogIn() {
         <form id="login">
             <div id="login_title">Log In</div>
             <div class="error">{errorLogIn ? errorLogIn : ""}</div>
-            <input type="email" name="mail" placeholder="account email" onChange={mailChange}/>
-            <input type="password" placeholder="password" onChange={passwordChange} autoComplete="on"/>
+            <div class="formentrylist">
+                <input className="formentry" type="email" name="mail" placeholder="account email" onChange={mailChange}/>
+                <input className="formentry" type="password" placeholder="password" onChange={passwordChange} autoComplete="on"/>
+            </div>
             <button type="submit" onClick={formSubmit}>Log In</button>
         </form>
     );
