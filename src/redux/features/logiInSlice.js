@@ -5,6 +5,9 @@ import { fetchPostsFriends, postsSlice} from "./postsSlice";
 import {fetchFriends, fetchRequests, friendsSlice} from "./friendsSlice";
 import {settingsSlice} from "./settingsSlice";
 import {profileSlice} from "./profileSlice";
+import {newPostSlice} from "./newPostSlice";
+import {searchSlice} from "./searchSlice";
+import {newMessageSlice} from "./newMessageSlice";
 
 const url = 'http://localhost:8000/users/'
 
@@ -52,6 +55,9 @@ export const logOut = createAsyncThunk(
         await thunkApi.dispatch(settingsSlice.actions.resetSettings())
         await thunkApi.dispatch(profileSlice.actions.resetProfile())
         await thunkApi.dispatch(displaySlice.actions.loggedOut())
+        await thunkApi.dispatch(newPostSlice.actions.newPostReset())
+        await thunkApi.dispatch(searchSlice.actions.resetSearch())
+        await thunkApi.dispatch(newMessageSlice.actions.newMessageReset())
         await thunkApi.dispatch(displaySlice.actions.goToDiscover())
     }
 )

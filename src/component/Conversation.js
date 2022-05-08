@@ -20,7 +20,7 @@ function Conversation() {
                     </ul>
                     <MessageForm />
                 </>
-                : messageList ? <div id="conversation">No messages yet<MessageForm /></div>
+                : messageList ? <div id="nomessage">No messages yet<MessageForm /></div>
                 : <div id="conversation">Could not load the messages </div>
     }</div>
 
