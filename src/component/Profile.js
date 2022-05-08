@@ -48,8 +48,8 @@ function Profile() {
                     {friends.map(friend => <Friend key={friend._id} user={friend} message={false} delete={false}/>)}
                 </ul>
                 : friendsLoading ? <Spinner />
-                : friendsError ? <div>{friendsError}</div>
-                : <div>This user does not have friends</div>
+                : friendsError ? <div id="profilefriends">{friendsError}</div>
+                : <div id="profilefriends">This user does not have friends</div>
             }
             <ul id='contentlist'>{posts.length ? posts.map((post) => <Content post={post} key={post._id}/>)
                 : postsLoading ? <Spinner />

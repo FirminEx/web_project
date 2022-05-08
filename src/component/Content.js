@@ -1,7 +1,4 @@
 import React from "react";
-import likes from "../src_logo/likes.jpg"
-import comment from "../src_logo/comment.png"
-import share from "../src_logo/share.png"
 import {imageToBase64} from "../data_process/image";
 import placeholder from "../img/placeholder.jpg";
 import {fetchProfile} from "../redux/features/profileSlice";
@@ -18,7 +15,6 @@ function Content(props) {
         dispatch(fetchProfile(props.post.authorID))
         dispatch(displaySlice.actions.goToProfile())
     }
-
     const date = new Date(props.post.date)
      return(
         <div class="content">
@@ -31,7 +27,7 @@ function Content(props) {
                     </div>
                 </div>
                 <div className="contentdate">
-                    {date.getDay()}/{date.getMonth()}/{date.getFullYear()}
+                    {date.getDate()}/{date.getMonth() + 1}/{date.getFullYear()}
                 </div>
             </div>
             <div class="contenttext">{props.post.text}</div>
@@ -43,19 +39,7 @@ function Content(props) {
     );
 
 }
-/*
-<li class="contentinteractionlogo">
-                    {props.post.likers ? props.post.likers.length : 0}
-                    <img src={likes} alt="like logo" class="contentlogo"/>
-                </li>
-                <li className="contentinteractionlogo">
-                    {props.post.comments ?  props.post.comments.length : 0}
-                    <img src={comment} alt="comment logo" className="contentlogo"/>
-                </li>
-                <li className="contentinteractionlogo">
-                    <img src={share} alt="share logo" className="contentlogo"/>
-                </li>
- */
+
 
 export default Content;
 

@@ -47,8 +47,8 @@ function Register() {
     return(
         <form id="register">
             <div id="register_title">Register</div>
-            <div class="error">{errorRegister ? errorRegister : ""}</div>
-            <div>{error ? error : ""}</div>
+            <div className="error">{errorRegister ? errorRegister : ""}</div>
+            <div className="error">{error ? error : ""}</div>
             <div className="formentrylist">
                 <input className="formentry" type="userName" onChange={userNameConfChange} placeholder="user name"/>
                 <input className="formentry" type="email" onChange={mailChange} placeholder="account email"/>

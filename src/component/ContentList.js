@@ -18,7 +18,7 @@ function ContentList() {
 
     useEffect(  async () => {
         if(!(postIdList.length) && !(idFetched)) dispatch(fetchAllId())
-        if (!postsList.length && (error === '') && display === 2 && postIdList.length) {
+        if (!pageList.length && (error === '') && display === 2 && postIdList.length) {
            dispatch(lazyFetchPostsDiscover(postIdList))
         }
         if (!postsList.length && (error === '') && display === 1) {
@@ -36,7 +36,7 @@ function ContentList() {
     }
 
     const onScroll = (e) => {
-        const bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
+        const bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight
         if (bottom) {
             dispatch(lazyFetchPostsDiscover(postIdList))
         }
@@ -45,7 +45,7 @@ function ContentList() {
     return(
         <>{
         pageList.length && display === 2 ?
-            <ul id="contentlist" >
+            <ul id="contentlist"  onScroll={onScroll}>
                 {pageList.map(page => page.map(post => <Content post={post} key={post._id}/>))}
                 {errorLazy ? <div id="endpostlist">{errorLazy}<button className="refresh" onClick={() => dispatch(lazyFetchPostsDiscover(postIdList))}><Refresh /></button></div> : ''}
                 { lazyLoading ? <Spinner/> : ''}

@@ -52,7 +52,7 @@ function MessageForm() {
         }
         if (text) postData['text'] = text
         if (file) postData['media'] = file
-        dispatch(createMessage(postData))
+        await dispatch(createMessage(postData))
         await dispatch(fetchConversation({friendID: (conversation.user1 === user._id ? conversation.user2 : conversation.user1), userID: user._id }))
         setText('')
         setFile(null)
