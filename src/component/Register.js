@@ -49,10 +49,12 @@ function Register() {
             <div id="register_title">Register</div>
             <div class="error">{errorRegister ? errorRegister : ""}</div>
             <div>{error ? error : ""}</div>
-            <input type="userName" onChange={userNameConfChange} placeholder="user name"/>
-            <input type="email" onChange={mailChange} placeholder="account email"/>
-            <input type="password" autoComplete="off" onChange={passwordChange} placeholder="password"/>
-            <input type="password" autoComplete="off" onChange={passwordConfChange} placeholder="confirm password"/>
+            <div className="formentrylist">
+                <input className="formentry" type="userName" onChange={userNameConfChange} placeholder="user name"/>
+                <input className="formentry" type="email" onChange={mailChange} placeholder="account email"/>
+                <input className="formentry" type="password" autoComplete="off" onChange={passwordChange} placeholder="password"/>
+                <input className="formentry" type="password" autoComplete="off" onChange={passwordConfChange} placeholder="confirm password"/>
+            </div>
             <button type="submit" onClick={formSubmit}>Register</button>
         </form>
     );

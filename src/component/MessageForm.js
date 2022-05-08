@@ -1,7 +1,7 @@
 import React, {useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {createMessage} from "../redux/features/newMessageSlice";
-import {fetchMessages} from "../redux/features/conversationSlice";
+import {fetchConversation} from "../redux/features/conversationSlice";
 import Compressor from "compressorjs";
 
 function MessageForm() {
@@ -53,7 +53,7 @@ function MessageForm() {
         if (text) postData['text'] = text
         if (file) postData['media'] = file
         dispatch(createMessage(postData))
-        dispatch(fetchMessages(conversation))
+        await dispatch(fetchConversation({friendID: (conversation.user1 === user._id ? conversation.user2 : conversation.user1), userID: user._id }))
         setText('')
         setFile(null)
     }

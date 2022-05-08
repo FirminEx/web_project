@@ -8,6 +8,7 @@ import {
 } from "../redux/features/postsSlice";
 import Content from "./Content";
 import Spinner from "./Spinner";
+import Refresh from "./Refresh";
 
 function ContentList() {
     const dispatch = useDispatch();
@@ -15,9 +16,9 @@ function ContentList() {
     const {display} = useSelector((state) => state.display)
     const {user} = useSelector((state) => state.logIn)
 
-    useEffect(  () => {
+    useEffect(  async () => {
         if(!(postIdList.length) && !(idFetched)) dispatch(fetchAllId())
-        if (!pageList.length && (error === '') && display === 2 && postIdList.length) {
+        if (!postsList.length && (error === '') && display === 2 && postIdList.length) {
            dispatch(lazyFetchPostsDiscover(postIdList))
         }
         if (!postsList.length && (error === '') && display === 1) {
@@ -36,7 +37,6 @@ function ContentList() {
 
     const onScroll = (e) => {
         const bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
-        console.log(bottom)
         if (bottom) {
             dispatch(lazyFetchPostsDiscover(postIdList))
         }
@@ -44,10 +44,10 @@ function ContentList() {
 
     return(
         <>{
-        pageList.length ?
-            <ul id="contentlist" onScroll={onScroll}>
+        pageList.length && display === 2 ?
+            <ul id="contentlist" >
                 {pageList.map(page => page.map(post => <Content post={post} key={post._id}/>))}
-                {errorLazy ? <div>{errorLazy}<button onClick={() => dispatch(lazyFetchPostsDiscover(postIdList))}>Try again</button></div> : ''}
+                {errorLazy ? <div id="endpostlist">{errorLazy}<button className="refresh" onClick={() => dispatch(lazyFetchPostsDiscover(postIdList))}><Refresh /></button></div> : ''}
                 { lazyLoading ? <Spinner/> : ''}
             </ul>
         : lazyLoading ? <Spinner />
@@ -55,7 +55,7 @@ function ContentList() {
             <ul id='contentlist' onScroll={onScroll}>{postsList.length ? postsList.map((post) => <Content post={post} key={post._id}/>)
                 : loading ? <Spinner />
                     : error ? <div>{error}<button onClick={retryFetch}>Try again</button></div>
-                        : <div id="noposts">No posts available<button onClick={retryFetch}>Try again</button></div> }</ul>
+                        : <div id="endpostlist">No posts available<button onClick={retryFetch} className="refresh"><Refresh /></button></div> }</ul>
         : errorLazy ? <div>{errorLazy}</div>
         : <div>No posts available</div>
         }</>

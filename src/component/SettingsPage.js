@@ -23,7 +23,7 @@ function SettingsPage() {
 
     let img ="";
     if(user.picture) {
-        img = <img className='contentprofilepicture' src={imageToBase64(user.picture)} alt='post media' ></img>
+        img = <img id='picturesettings' src={imageToBase64(user.picture)} alt='post media' ></img>
     }
 
     const inputFile = (e) => {
@@ -98,51 +98,57 @@ function SettingsPage() {
 
     return (
         <div id="settingspage">
-            <button onClick={leaveSettings}>X</button>
-            <h1 class="settingtitle">Profile settings</h1>
-                {img ? img : "Error could not load the image"}
-                <p class="setting">Change Profile Picture</p>
+
+            <div class="settingtitle">
+                <div>Profile settings</div>
+                <button className="leave" onClick={leaveSettings}>X</button>
+            </div>
                 <>{ loadingPicture ? <Spinner /> :
-                    <>
-                        <input id='inputfile' type="file" onChange={handleFileInput} ref={fileInput}/>
-                        <button onClick={inputFile}>{file ? file.name : "Select a file"}</button>
+                    <div id="changepicture">
+                        {img ? img : "Error could not load the image"}
+                        <p className="setting">Change Profile Picture</p>
+                        <button onClick={inputFile} id="selectfilesettings">{file ? file.name : "Select a file"}</button>
                         <div className="error">{error ? error : errorPicture ? errorPicture : ''}</div>
-                    </>
+                        <button onClick={submitPicture}>Submit</button>
+                    </div>
                 }</>
-                <button onClick={submitPicture}>Submit</button>
+            <input id='inputfile' type="file" onChange={handleFileInput} ref={fileInput}/>
             <div className="success">{successPicture ? "Changed the picture" : ''}</div>
             <div className="setting">
                 {loadingUserName ? <Spinner/>
-                    : <>
-                        Current user name: {user.userName}
+                    : <div className="settingsform">
+                        <div className="settingscurrent">Current user name: @{user.userName}</div>
                         <input type="text" placeholder="Change UserName" className="setting settingtext" onChange={userNameChange}/>
                         <button className="settingsubmit" onClick={submitUserName}>Submit</button>
-                        {successUserName ? <div className="success">Successfully changed the username</div> : ''}
-                        <div className="error">{errorUserName ? errorUserName : ''}</div>
-                    </>
+                    </div>
                 }
+                {successUserName ? <div className="success">Successfully changed the username</div> : ''}
+                <div className="error">{errorUserName ? errorUserName : ''}</div>
             </div>
             <div class="setting">
                 { loadingPlace ? <Spinner />
-                    : <>
-                        Current place: {user.place}
+                    : <div className="settingsform">
+                        <div className="settingscurrent">Current place: {user.place}</div>
                         <input type="text" placeholder="Type here your new Place" className="setting settingtext" onChange={placeChange}/>
-                        <button class="settingsubmit" onClick={submitPlace}>{place ? "Submit" : "Delete current place"}</button>
-                        {successPlace ? <div className="success">Successfully changed the place</div> : ''}
-                        <div className="error">{errorPlace ? errorPlace : ''}</div>
-                    </>
+                        <button class="settingsubmit" onClick={submitPlace}>{place ? "Submit" : "Delete place"}</button>
+                    </div>
                 }
+                {successPlace ? <div className="success">Successfully changed the place</div> : ''}
+                <div className="error">{errorPlace ? errorPlace : ''}</div>
             </div>
             <div class="setting">
                 { loadingBio ? <Spinner />
-                    : <>
-                        Current bio: {user.bio}
-                        <textarea placeholder="Type here your new Bio" class="setting settingtext" onChange={bioChange}/>
-                        <button class="settingsubmit" onClick={submitBio}>{bio ? "Submit" : "Delete current bio"}</button>
-                        {successBio ? <div className="success">Successfully changed the bio</div> : ''}
-                        <div className="error">{errorBio ? errorBio : ''}</div>
-                    </>
+                    :
+                        <div className="settingsform">
+                            <div className="settingscurrent">Current bio: {user.bio}</div>
+                            <textarea placeholder="Type here your new Bio" class="setting settingtext" onChange={bioChange}/>
+                            <button class="settingsubmit" onClick={submitBio}>{bio ? "Submit" : "Delete bio"}</button>
+
+                        </div>
+
                 }
+                <div className="error">{errorBio ? errorBio : ''}</div>
+                {successBio ? <div className="success">Successfully changed the bio</div> : ''}
             </div>
             <div class="setting">
                 {   loadingFriends ? <Spinner />
@@ -150,7 +156,7 @@ function SettingsPage() {
                         <>
                             <ul id="messagelist">
                                 Friends
-                                {friends.map(friend => <Friend key={friend._id} user={friend} message={false} delete={true}/>)}
+                                {friends.map(friend => <Friend class="ooo" key={friend._id} user={friend} message={false} delete={true} />)}
                             </ul>
                             <div className="error">{errorFriends ? errorFriends : ''}</div>
                             <div className="success">{successFriends ? "Successfully updated the friends" : null}</div>
@@ -158,8 +164,6 @@ function SettingsPage() {
                     : "You do not have friends"
                 }
             </div>
-            <h1 class="settingtitle">Display settings</h1>
-                <p class="setting">Dark Mode</p>
         </div>
     );
 

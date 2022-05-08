@@ -55,7 +55,7 @@ export const fetchPostsProfile = createAsyncThunk(
         const response = await axios.post(postsUrl + 'getPostsUser', {userID: user._id})
             .catch(err =>  Promise.reject(err.message))
         if(!(response.status === 200)) return Promise.reject(new Error(response.data))
-        return response.data
+        return response.data.posts;
     }
 )
 

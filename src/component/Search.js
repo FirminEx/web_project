@@ -25,8 +25,8 @@ function Search() {
         {
             searchResults.length ? searchResults.map(user =>
                 <div className="result" onClick={() => goToProfile(user.id)}>
-                    <img src={imageToBase64(user.picture)} alt={user.name} className="friendpp"/>
-                    {user.name}
+                    <img src={imageToBase64(user.picture)} alt={user.name} className="contentprofilepicture"/>
+                    @{user.name}
                 </div>)
             : loading ?  <Spinner />
             : error ? error : ''

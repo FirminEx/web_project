@@ -52,6 +52,7 @@ export const logOut = createAsyncThunk(
         await thunkApi.dispatch(settingsSlice.actions.resetSettings())
         await thunkApi.dispatch(profileSlice.actions.resetProfile())
         await thunkApi.dispatch(displaySlice.actions.loggedOut())
+        await thunkApi.dispatch(displaySlice.actions.goToDiscover())
     }
 )
 

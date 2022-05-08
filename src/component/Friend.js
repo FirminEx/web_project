@@ -6,6 +6,7 @@ import {displaySlice} from "../redux/features/displaySlice"
 import {fetchConversation} from "../redux/features/conversationSlice";
 import {fetchProfile} from "../redux/features/profileSlice";
 import {updateFriend} from "../redux/features/settingsSlice";
+import Envelope from "./Envelope";
 
 function Friend(props) {
     const dispatch = useDispatch()
@@ -29,15 +30,15 @@ function Friend(props) {
 
 
     return(
-    <div class="friend">
+    <div class={"friend " + (props.delete ? "friendsettings" : "")}>
         {
             props.user.picture ?
             <img src={imageToBase64(props.user.picture)} alt={props.user.userName} className="friendpp" onClick={goToProfile}/>
             : <img src={placeholder} alt={props.user.userName} className="friendpp"/>
         }
-        <div class="friendname">{props.user.userName}</div>
-        {props.message ? <button onClick={friendConversation}>Message</button> : null}
-        {props.delete ? <button onClick={deleteFriend}>Delete</button> : null}
+        <div class="friendname">@{props.user.userName}</div>
+        {props.message ? <button className="conversationbutton" onClick={friendConversation}><Envelope /></button> : null}
+        {props.delete ? <button className="deletebutton" onClick={deleteFriend}>Delete</button> : null}
     </div>
     );
 }
